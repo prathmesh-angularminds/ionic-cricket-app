@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayerProfileComponent  implements OnInit {
 
+  pageTitle: string = "Player Statistics"
   constructor() { }
 
   ngOnInit() {}

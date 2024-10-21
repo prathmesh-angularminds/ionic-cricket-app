@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { PlayerProfileComponent } from './player-profile/player-profile.component';
 import { SharedModule } from "../../shared/shared.module";
 import { BackButtonComponent } from "../../shared/back-button/back-button.component";
+import { RouterLink } from '@angular/router';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { BackButtonComponent } from "../../shared/back-button/back-button.compon
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    BackButtonComponent
+    BackButtonComponent,
+    RouterLink
 ]
 })
 export class HomeModule { }

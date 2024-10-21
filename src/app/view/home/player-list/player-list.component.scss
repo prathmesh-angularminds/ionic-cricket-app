@@ -1,0 +1,124 @@
+@import '../../../../assets/scss/variables';
+
+.player-list::-webkit-scrollbar {
+    display: none;
+}
+
+.player-list {
+    width: 100%;
+    height: 100vh;
+    padding: 8% 4%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    .player-list::-webkit-scrollbar {
+        display: none;
+    }
+    &-header {
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &-search-container {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin-top: 10%;
+        box-sizing: border-box;
+        input {
+            // position: absolute;
+            height: 50px;
+            width: 100%;
+            background: $white;
+            border: none;
+            outline: none;
+            border-radius: 12px;
+            font-size: 14px;
+            padding-left: 6%;
+            box-sizing: border-box;
+        }
+        input::placeholder {
+            font-size: 14px;
+        }
+        &-button {
+            position: absolute;
+            top: 0px;
+            z-index: 2;
+            height: 50px;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 0px;
+            border-radius: 12px;
+            background: $white;
+        }
+    }
+    &-container {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 10%;
+        box-sizing: border-box;
+        .player-card {
+            position: relative;
+            width: 48%;
+            height: 240px;
+            border: 2px solid white;
+            border-radius: 12px;
+            margin-top: 5%;
+            box-sizing: border-box;
+            .player-image {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                img {
+                    height: 100%;
+                    width: 120%;
+                    border-radius: 12px;
+                }
+            }
+            .player-statistics {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 12px;
+                background: $player-card-bg;
+                padding: 6% 6% 8% 6%;
+                color: $white;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                .player-name {
+                    .first-name {
+                        font-size: 10px;
+                    }
+                    .last-name {
+                        font-size: 18px;
+                        font-weight: 700
+                    }
+                }
+                .player-numeric-info {
+                    display: flex;
+                    justify-content: space-between;
+                    .column1, .column2, .column3 {
+                        .title {
+                            font-size: 10px;
+                        }
+                        .data {
+                            font-size: 18px;
+                            font-weight: 700;
+                            color: $pink;
+                        }
+                    }
+                }
+            }
+        }
+        .player-card:nth-child(1), .player-card:nth-child(2)  {
+            margin-top: 0;
+        }
+    }
+}

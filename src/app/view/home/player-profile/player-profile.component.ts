@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class PlayerProfileComponent  implements OnInit {
 
   pageTitle: string = "Player Statistics"
+  url: string = "/home/player-list"
   constructor() { }
 
   ngOnInit() {}

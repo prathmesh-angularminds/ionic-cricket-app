@@ -68,3 +68,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Build Android project
+# Open ionic documentation > Developing > Developing for Android > Click Capicator
+# Then generate ionic build [Which generate www folder]
+# npm install @capacitor/android
+# npx cap add android
+# npx cap open android

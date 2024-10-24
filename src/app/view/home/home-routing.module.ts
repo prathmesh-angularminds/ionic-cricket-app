@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PlayerProfileComponent } from './player-profile/player-profile.component';
 import { PlayerListComponent } from './player-list/player-list.component';
+import { MatchListComponent } from './match-list/match-list.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: "player-list",
     component: PlayerListComponent
+  },
+  {
+    path: "match-list",
+    component: MatchListComponent
   }
 ];
 

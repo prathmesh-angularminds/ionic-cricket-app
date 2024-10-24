@@ -1,0 +1,132 @@
+@import '../../../../assets/scss/variables';
+
+.match-list::-webkit-scrollbar {
+    display: none;
+}
+
+.match-list {
+    width: 100%;
+    height: 100vh;
+    padding: 8% 4%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    .match-list::-webkit-scrollbar {
+        display: none;
+    }
+    &-header {
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &-new-match-button-container {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin-top: 10%;
+        box-sizing: border-box;
+        button {
+            height: 50px;
+            width: 100%;
+            background: $white;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            box-sizing: border-box;
+            color: $text-color;
+        }
+    }
+
+    &-container {
+        width: calc(100% + 7%);
+    }
+    
+    &-single-day-container {
+        width: 100%;
+        .single-day-date {
+            font-size: 14px;
+            font-weight: 500;
+            margin: 10% 0 5% 0;
+            padding-left: 4%;
+            box-sizing: border-box;
+        }
+        .single-day-matches {
+            display: flex;
+            overflow-x: scroll;
+            padding: 0% 4%;
+            gap: 10%;
+            box-sizing: border-box;
+            .match-card {
+                min-width: 300px;
+                background-color: $match-card-bg;
+                border: 1px solid $white;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+                background-image: url('../../../../assets/icon/match-card-bg-image.svg'), url('../../../../assets/icon/match-card-bg-image.svg'),$match-card-bg;
+                background-repeat: no-repeat;
+                padding: 10% 10%;
+                box-sizing: border-box;
+                background-position: 10px 10px,275px 80px,center;
+                .card-row1 {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-evenly;
+                    .card-column1, .card-column3 {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        &-row2 {
+                            font-size: 12px;
+                            font-weight: 700;
+                            margin-top: 3%;
+                            box-sizing: border-box;
+                        }
+                        &-row3 {
+                            font-size: 20px;
+                            font-weight: 800;
+                            color: $pink;
+                            margin-top: 10%;
+                            box-sizing: border-box;
+                        }
+                        &-row4 {
+                            font-size: 14px;
+                            font-weight: 500
+                        }
+                    }
+                    .card-column2 {
+                        font-size: 24;
+                        font-weight: 800;
+                        background-image: linear-gradient(119.94deg, rgba(20, 42, 75, 0.1) 0%, #142A4B 270.56%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                        text-fill-color: transparent;
+                        span {
+                            font-weight: 200;
+                        }
+                        margin-top: 52px;
+                        box-sizing: border-box;
+                    }
+                }
+                .card-row2 {
+                    font-size: 10px;
+                    margin-top: 10px;
+                    box-sizing: border-box;
+                }
+            }
+        }
+        .single-day-matches::-webkit-scrollbar {
+            display: none;
+        }
+
+    }
+    
+}
+

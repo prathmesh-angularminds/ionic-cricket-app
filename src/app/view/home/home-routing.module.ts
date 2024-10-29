@@ -7,7 +7,7 @@ import { MatchListComponent } from './match-list/match-list.component';
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "player-list",
+    redirectTo: "match-list",
     pathMatch: 'full'
   },
   {

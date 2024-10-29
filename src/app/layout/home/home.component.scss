@@ -4,5 +4,57 @@
     width: 100%;
     height: 100%;
     background: $background-color;
-    color: $text-color
+    color: $text-color;
+    position: relative;
+    &-navbar {
+        width: 100%;
+        position: fixed;
+        height: 75px;
+        bottom: 0px;
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(30px);
+        border: 1px solid white;
+        display: flex;
+        justify-content: space-evenly;
+
+        .matches-button, .players-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+
+            .active-button, .inactive-button {
+                width: 5px;
+                height: 5px;
+                border-radius: 20px;
+                background: $text-color;
+                margin-top: 5px;
+                box-sizing: border-box;
+            }
+
+            .inactive-button {
+                opacity: 0;
+            }
+        }
+    }
 }
+
+/* Rectangle 33 */
+
+// box-sizing: border-box;
+
+// position: absolute;
+// width: 430px;
+// height: 83px;
+// left: 0px;
+// top: 849px;
+
+// background: rgba(255, 255, 255, 0.5);
+// border-top: 1px solid #FFFFFF;
+// box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+// backdrop-filter: blur(25px);
+/* Note: backdrop-filter has minimal browser support */

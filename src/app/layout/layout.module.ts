@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth.component';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 
 
@@ -10,7 +10,8 @@ import { RouterOutlet } from '@angular/router';
   declarations: [HomeComponent,AuthComponent],
   imports: [
     CommonModule,
-    RouterOutlet
+    RouterOutlet,
+    RouterLink
   ]
 })
 export class LayoutModule { }

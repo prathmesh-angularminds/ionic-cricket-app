@@ -7,8 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent  implements OnInit {
 
+  playersButton: boolean = false;
+  matchesButton: boolean = true;
   constructor() { }
 
   ngOnInit() {}
+
+  setActiveNavbarButton(label: string) {
+    if(label === 'players') {
+      this.playersButton = true;
+      this.matchesButton = false;
+    } else {
+      this.playersButton = false;
+      this.matchesButton = true;
+    }
+  }
 
 }

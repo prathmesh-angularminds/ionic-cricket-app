@@ -1,14 +1,14 @@
 <div class="home">
   <router-outlet></router-outlet>
-  <div class="home-navbar">
-    <div class="matches-button" [routerLink]="'/home/match-list'" (click)="setActiveNavbarButton('matches')">
+  <div class="home-navbar" *ngIf="showNavbar">
+    <div class="matches-button" [routerLink]="'/home/match-list'" (click)="setActiveNavbarButton('match-list')">
       <div class="matches-button-image">
         <img src="../../../assets/icon/bat-ball-nav-icon.svg"/>
       </div>
       <div class="matches-button-text">Matches</div>
       <div [ngClass]="matchesButton ? 'active-button' : 'inactive-button'"></div>
     </div>
-    <div class="players-button" [routerLink]="'/home/player-list'" (click)="setActiveNavbarButton('players')">
+    <div class="players-button" [routerLink]="'/home/player-list'" (click)="setActiveNavbarButton('player-list')">
       <div class="players-button-image">
         <img src="../../../assets/icon/player-nav-icon.svg"/>
       </div>

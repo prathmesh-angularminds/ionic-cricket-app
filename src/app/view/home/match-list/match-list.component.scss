@@ -14,9 +14,6 @@
     align-items: center;
     overflow-y: scroll;
     overflow-x: hidden;
-    .match-list::-webkit-scrollbar {
-        display: none;
-    }
     &-header {
         width: 100%;
         text-align: center;
@@ -73,7 +70,7 @@
                 background-repeat: no-repeat;
                 padding: 10% 10%;
                 box-sizing: border-box;
-                background-position: 10px 10px,275px 80px,center;
+                background-position: 2% 10%,98% 90%,center;
                 .card-row1 {
                     display: flex;
                     width: 100%;
@@ -128,5 +125,8 @@
 
     }
     
+}
+.match-list::-webkit-scrollbar {
+    display: none;
 }
 

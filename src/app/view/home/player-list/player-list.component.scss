@@ -1,9 +1,5 @@
 @import '../../../../assets/scss/variables';
 
-.player-list::-webkit-scrollbar {
-    display: none;
-}
-
 .player-list {
     width: 100%;
     height: 100vh;
@@ -12,9 +8,6 @@
     display: flex;
     flex-direction: column;
     overflow: scroll;
-    .player-list::-webkit-scrollbar {
-        display: none;
-    }
     &-header {
         width: 100%;
         text-align: center;
@@ -121,4 +114,7 @@
             margin-top: 0;
         }
     }
+}
+.player-list::-webkit-scrollbar {
+    display: none;
 }

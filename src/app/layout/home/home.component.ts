@@ -16,9 +16,11 @@ export class HomeComponent  implements OnInit {
 
   ngOnInit() {
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe((route: any) => {
-      if(route.url.includes('player-list') || route.url.includes('match-list')) {
+      console.log(route);
+      let url = route.urlAfterRedirects
+      if(url.includes('player-list') || url.includes('match-list')) {
         this.showNavbar = true;
-        this.setActiveNavbarButton(route.url.split('/')[2]);
+        this.setActiveNavbarButton(url.split('/')[2]);
       } else {
         this.showNavbar = false
       }
@@ -26,12 +28,12 @@ export class HomeComponent  implements OnInit {
   }
 
   setActiveNavbarButton(label: string) {
-    if(label === 'player-list') {
-      this.playersButton = true;
-      this.matchesButton = false;
-    } else {
+    if(label === 'match-list' || label === 'home') {
       this.playersButton = false;
       this.matchesButton = true;
+    } else {
+      this.playersButton = true;
+      this.matchesButton = false;
     }
   }
 

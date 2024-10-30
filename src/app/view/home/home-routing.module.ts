@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlayerProfileComponent } from './player-profile/player-profile.component';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { MatchListComponent } from './match-list/match-list.component';
+import { MatchSummaryComponent } from './match-summary/match-summary.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: "match-list",
     component: MatchListComponent
+  },
+  {
+    path: "match-summary",
+    component: MatchSummaryComponent
   }
 ];
 

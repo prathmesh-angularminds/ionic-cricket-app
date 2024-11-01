@@ -7,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MatchSummaryComponent  implements OnInit {
 
+  screenWidth: number = 0;
+  showCard: number = 1;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.screenWidth = window.innerWidth;
+  }
 
-  transformElement() {
-    let element: any = document.getElementsByClassName('match-summary-first-inning')[0];
-    element.style.transform = 'translateX(-390px)'
-    console.log(element.style)
+  transformElement(num: number) {
+    this.showCard = num
   }
 }

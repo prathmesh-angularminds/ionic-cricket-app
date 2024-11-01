@@ -16,7 +16,6 @@ export class HomeComponent  implements OnInit {
 
   ngOnInit() {
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe((route: any) => {
-      console.log(route);
       let url = route.urlAfterRedirects
       if(url.includes('player-list') || url.includes('match-list')) {
         this.showNavbar = true;

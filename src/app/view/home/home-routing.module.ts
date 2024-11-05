@@ -4,6 +4,8 @@ import { PlayerProfileComponent } from './player-profile/player-profile.componen
 import { PlayerListComponent } from './player-list/player-list.component';
 import { MatchListComponent } from './match-list/match-list.component';
 import { MatchSummaryComponent } from './match-summary/match-summary.component';
+import { UpdateScoreComponent } from './update-score/update-score.component';
+import { CreateMatchComponent } from './create-match/create-match.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: "match-summary",
     component: MatchSummaryComponent
+  },
+  {
+    path: "update-score",
+    component: UpdateScoreComponent
+  },
+  {
+    path: "create-match",
+    component: CreateMatchComponent
   }
 ];
 

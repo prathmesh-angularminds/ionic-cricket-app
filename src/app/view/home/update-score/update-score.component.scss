@@ -1,0 +1,178 @@
+@import '../../../../assets/scss/variables';
+
+.update-score {
+    width: 100%;
+    height: 100%;
+    padding: 8% 4%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    &-header {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        app-back-button {
+            position: absolute;
+            left: 16px;
+        }
+        .update-score-title {
+            width: 100%;
+            text-align: center;
+            .team-name {
+                font-size: 18px;
+                font-weight: 600;
+            }
+            .inning-title {
+                font-size: 12px;
+            }
+        }
+    }
+    &-run-wickets {
+        font-size: 50px;
+        font-weight: 800;
+        color: $pink;
+        margin: 3% 0 1% 0;
+        box-sizing: border-box;
+    }
+    &-extra-details {
+        width: 100%;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        justify-content: space-evenly;
+        padding-bottom: 3%;
+        box-sizing: border-box;
+    }
+    &-second-inning-details {
+        width: 100%;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+        padding-top: 4%;
+        box-sizing: border-box;
+        border-top: 1px solid $white;
+        .target-score-rr {
+            display: flex;
+            justify-content: center;
+            gap: 5%;
+        }
+        .required-score-details {
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+    }
+    &-batting-table, &-bowling-table {
+        width: 100%;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        table {
+            width: 100%;    
+            thead,
+                th {
+                    font-size: 10px;
+                    font-weight: 500;
+                }
+            tbody {
+                tr {
+                    height: 50px;
+                    span {
+                        display: flex;
+                        align-items: center;
+                        .on-strike {
+                            background-color: $pink;
+                            width: 4px;
+                            height: 4px;
+                            rotate: 45deg;
+                        }
+                    }
+                    button {
+                        outline: none;
+                        background-color: $white;
+                        border-radius: 5px;
+                        color: $text-color;
+                        font-size: 12px;
+                        font-weight: 600;
+                        padding: 4% 5%;
+                        box-sizing: border-box;
+                    }
+                }
+                .batsman-details {
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                .wicket-details {
+                    font-size: 8px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+    &-bowling-table {
+        margin-top: 5px;
+    }
+    &-over-records {
+        width: 100%;
+        border-top: 1px solid $white;
+        padding: 3% 0;
+        display: flex;
+        flex-direction: row;
+        gap: 2%;
+        overflow-x: scroll;
+        .run-on-ball {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $white;
+            font-size: 8px;
+        }
+        .wicket {
+            background-color: $wicket;
+            color: $white
+        }
+        .boundary {
+            background-color: $text-color;
+            color: $white
+        }
+    }
+    &-over-records::-webkit-scrollbar {
+        display: none;
+    }
+    &-keypad {
+        position: absolute;
+        height: 35%;
+        width: 100%;
+        bottom: 0;
+        background: $white;
+        display: flex;
+        overflow-x: scroll;
+        .column1 {
+            min-width: 25%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 25%;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .wicket {
+                color: $wicket;
+            }
+        }
+    }
+    &-keypad::-webkit-scrollbar {
+        display: none;
+    }
+}

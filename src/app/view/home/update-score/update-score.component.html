@@ -1,0 +1,127 @@
+<div class="update-score">
+  <div class="update-score-header">
+    <app-back-button [url]="url"></app-back-button>
+    <div class="update-score-title">
+      <div class="team-name">TEAM A</div>
+      <div class="inning-title">1st Inning</div>
+    </div>
+  </div>
+  <div class="update-score-run-wickets">
+    30-4
+  </div>
+  <div class="update-score-extra-details">
+    <span>Ex - 0</span>
+    <span>Ov - 2.2 / 4</span>
+    <span>CRR - 10.5</span>
+  </div>
+  <div class="update-score-second-inning-details">
+    <div class="target-score-rr">
+      <span>Target 40</span>
+      <span>Req.RR - 10.5</span>
+    </div>
+    <div class="required-score-details">Need 10 runs of 8 balls</div>
+  </div>
+  <div class="update-score-batting-table">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left; padding-left: 3%; width: 40%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Batting</th>
+          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">R</th>
+          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">B</th>
+          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">6s</th>
+          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">4s</th>
+          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">S.R</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="batsman-details" style="border-top: 1px solid white;">
+          <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
+            <span>C . Darekar&nbsp;&nbsp;<span class="on-strike"></span></span>
+          </td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">100</td>
+        </tr>
+        <tr class="batsman-details" style="border-top: 1px solid white;">
+          <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
+            <span *ngIf="false">C . Darekar&nbsp;&nbsp;<span class="on-strike"></span></span>
+            <button>New Batsman</button>
+          </td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">100</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="update-score-bowling-table">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left; padding-left: 3%; width: 50%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Bowling</th>
+          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Ov</th>
+          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Bow</th>
+          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Wkts</th>
+          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Econ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="batsman-details" style="border-top: 1px solid white">
+          <td style="text-align: left; padding-left: 3%; width: 50%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">Vishal</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="update-score-over-records">
+    <span class="run-on-ball">1</span>
+    <span class="run-on-ball wicket">W</span>
+    <span class="run-on-ball boundary">6</span>
+  </div>
+  <div class="update-score-bowling-table"></div>
+  <div class="update-score-keypad">
+    <div class="column1">
+      <span>1</span>
+      <span>6</span>
+      <span class="wicket">HW</span>
+      <span>2 - RO</span>
+    </div>
+    <div class="column1">
+      <span>2</span>
+      <span>2D</span>
+      <span class="wicket">W</span>
+      <span>3 - RO</span>
+    </div>
+    <div class="column1">
+      <span>3</span>
+      <span>WD</span>
+      <span>RO</span>
+      <span>4 - RO</span>
+    </div>
+    <div class="column1">
+      <span>4</span>
+      <span class="wicket">CW</span>
+      <span>1 + RO</span>
+      <span>0</span>
+    </div>
+    <div class="column1">
+      <span>NB</span>
+      <span>1 + NB</span>
+      <span>2 + NB</span>
+      <span>3 + NB</span>
+    </div>
+    <div class="column1">
+      <span>4 + NB</span>
+      <span>6 + NB</span>
+      <span>RD</span>
+      <span>Undo</span>
+    </div>
+  </div>
+</div>

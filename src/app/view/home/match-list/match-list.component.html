@@ -3,7 +3,7 @@
     {{pageTitle}}
   </div>
   <div class="match-list-new-match-button-container">
-    <button>{{newMatchLabel}}</button>
+    <button [routerLink]="'/home/create-new-match'" [queryParams]="{'isNewMatch':true}">{{newMatchLabel}}</button>
   </div>
   <div class="match-list-container">
     <div class="match-list-single-day-container">

@@ -1,0 +1,29 @@
+<div class="add-team-players">
+  <div class="add-team-players-header">
+    <app-back-button [url]="backUrl"></app-back-button>
+    <div class="add-team-players-header-title-container">
+      <div class="title">Add {{teamName}} Players</div>
+    </div>
+  </div>
+  <div class="add-team-players-table">
+    <div class="add-team-players-all-players-list">
+      <div class="title">All Players</div>
+      <ng-container *ngFor="let player of allPlayersList; let i = index">
+        <div class="player-card" (click)="addPlayerInTeam(player)" *ngIf="!player.isSelected">
+          <span>{{player.name}}</span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="add-team-players-selected-player-list">
+      <div class="title">Playing XI</div>
+      <ng-container *ngFor="let player of selectedTeamPlayerList; let i = index">
+        <div class="player-card" [ngClass]="i === 0 ? 'add-bookmark-icon' : ''" (click)="removePlayerFromTeam(player,i)">
+          <span>{{player.name}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="add-team-players-done-button" [routerLink]="backUrl" (click)="onPlayerSelectionCompleted()">
+    Done
+  </div>
+</div>

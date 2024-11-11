@@ -1,0 +1,38 @@
+<div class="create-match" [formGroup]="match">
+  <div class="create-match-header">
+    <app-back-button [url]="backUrl"></app-back-button>
+    <div class="create-match-header-title-container">
+      <div class="title">New Match</div>
+    </div>
+  </div>
+  <div class="create-match-create-teams">
+    <div class="title">Add players in each teams</div>
+    <div class="create-match-teams-button">
+      <button [routerLink]="'/home/add-team-players'" [queryParams]="{'teamName':'Team A'}">TEAM A</button>
+      <button [routerLink]="'/home/add-team-players'" [queryParams]="{'teamName':'Team B'}">TEAM B</button>
+    </div>
+  </div>
+  <div class="create-match-select-overs">
+    <div class="title">Select number of overs</div>
+    <div class="select-overs-div">
+      <button class="decrease-overs" (click)="changeOver(false)">
+        <img src="../../../../assets/icon/minus.svg"/>
+      </button>
+      <button class="display-overs">{{overs?.value}}</button>
+      <button class="increase-overs" (click)="changeOver(true)">
+        <img src="../../../../assets/icon/plus.svg"/>
+      </button>
+    </div>
+  </div>
+  <div class="create-match-confirmation-checkbox">
+    <input id="isTeamOverSelected" [formControl]="isTeamOverSelected" type="checkbox" [disabled]="true"/><label for="isTeamOverSelected">Are teams and number of overs selected</label>
+  </div>
+  <div class="create-match-select-batting-team" id="toss" *ngIf="isTeamOverSelected.value">
+    <span>Select a team which will bat first</span>
+    <div class="team1-radio-container"><input id="TEAM A" type="radio" value="TEAM A" name="toss" [formControl]="teamName"/><label for="TEAM A">TEAM A</label></div>
+    <div class="team2-radio-container"><input id="TEAM B" type="radio" value="TEAM B" name="toss" [formControl]="teamName"/><label for="TEAM B">TEAM B</label></div>
+  </div>
+  <div class="create-match-start-match-button" [routerLink]="'/home/update-score'" *ngIf="isTeamOverSelected.value && teamName.value">
+    <button>Start New Match</button>
+  </div>
+</div>

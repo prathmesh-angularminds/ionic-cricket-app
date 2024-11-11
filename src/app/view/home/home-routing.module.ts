@@ -6,6 +6,7 @@ import { MatchListComponent } from './match-list/match-list.component';
 import { MatchSummaryComponent } from './match-summary/match-summary.component';
 import { UpdateScoreComponent } from './update-score/update-score.component';
 import { CreateMatchComponent } from './create-match/create-match.component';
+import { AddTeamPlayersComponent } from './add-team-players/add-team-players.component';
 
 const routes: Routes = [
   {
@@ -34,8 +35,12 @@ const routes: Routes = [
     component: UpdateScoreComponent
   },
   {
-    path: "create-match",
+    path: "create-new-match",
     component: CreateMatchComponent
+  },
+  {
+    path: "add-team-players",
+    component: AddTeamPlayersComponent
   }
 ];
 

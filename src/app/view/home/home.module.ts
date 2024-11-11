@@ -14,16 +14,29 @@ import { MatchSummaryComponent } from './match-summary/match-summary.component';
 import { UpdateScoreComponent } from './update-score/update-score.component';
 import { SelectPlayerComponent } from './select-player/select-player.component';
 import { CreateMatchComponent } from './create-match/create-match.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddTeamPlayersComponent } from './add-team-players/add-team-players.component';
 
 
 @NgModule({
-  declarations: [PlayerProfileComponent,PlayerListComponent,MatchListComponent,MatchSummaryComponent,UpdateScoreComponent,SelectPlayerComponent, CreateMatchComponent],
+  declarations: [
+    PlayerProfileComponent,
+    PlayerListComponent,
+    MatchListComponent,
+    MatchSummaryComponent,
+    UpdateScoreComponent,
+    SelectPlayerComponent,
+    CreateMatchComponent,
+    AddTeamPlayersComponent
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     SharedModule,
     BackButtonComponent,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule,
+    FormsModule
 ]
 })
 export class HomeModule { }

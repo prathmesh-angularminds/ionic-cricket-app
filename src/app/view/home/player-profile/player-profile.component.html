@@ -1,96 +1,173 @@
-<div class="player-profile">
+<div class="player-profile" *ngIf="player">
   <div class="player-profile-header">
     <app-back-button [url]="url"></app-back-button>
     <div class="player-profile-header-container">
       <div class="player-profile-header-container-title">{{pageTitle}}</div>
-      <div class="player-profile-header-container-sub-title">[Batsman]</div>
+      <div class="player-profile-header-container-sub-title">[{{player.playerType}}]</div>
     </div>
   </div>
   <div class="player-profile-info">
-    <ng-container *ngIf="true">
+    <ng-container>
       <div class="player-profile-info-card1">
         <div class="player-profile-info-card1-player-statistics">
           <div class="indian-flag-player-number">
             <img src="../../../../assets/icon/indian-flag.svg"/>
-            <span class="player-number">31</span>
+            <span class="player-number">{{player.jerseyNumber}}</span>
           </div>
           <div class="player-name">
-            <span class="player-first-name">Chhatrapati</span>
-            <span class="player-last-name">Darekar</span>
+            <span class="player-first-name">{{player.firstName}}</span>
+            <span class="player-last-name">{{player.lastName}}</span>
           </div>
           <div class="player-category">RIGHT HANDED BATSMAN</div>
-          <div class="player-numerical-statistics">
-            <div class="left-column">
-              <div class="data-block">
-                <span class="title">Match</span>
-                <span class="data">10</span>
+          <ng-container *ngIf="player.playerType === 'Bowler';else batsmanTitleCard">
+            <div class="player-numerical-statistics">
+              <div class="left-column">
+                <div class="data-block">
+                  <span class="title">Match</span>
+                  <span class="data">{{player.match}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">Overs</span>
+                  <span class="data">{{player.bowlingDetails.over}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">Wickets</span>
+                  <span class="data">{{player.bowlingDetails.wicket}}</span>
+                </div>
               </div>
-              <div class="data-block">
-                <span class="title">Runs</span>
-                <span class="data">235</span>
-              </div>
-              <div class="data-block">
-                <span class="title">6's</span>
-                <span class="data">15</span>
+              <div class="right-column">
+                <div class="data-block">
+                  <span class="title">Economy</span>
+                  <span class="data">{{player.bowlingDetails.economy}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">Most Wkts</span>
+                  <span class="data">{{player.bowlingDetails.mostWicket}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">runs</span>
+                  <span class="data">{{player.bowlingDetails.run}}</span>
+                </div>
               </div>
             </div>
-            <div class="right-column">
-              <div class="data-block">
-                <span class="title">S.R</span>
-                <span class="data">10.5</span>
+          </ng-container>
+          <ng-template #batsmanTitleCard>
+            <div class="player-numerical-statistics">
+              <div class="left-column">
+                <div class="data-block">
+                  <span class="title">Match</span>
+                  <span class="data">{{player.match}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">Runs</span>
+                  <span class="data">{{player.battingDetails.run}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">6's</span>
+                  <span class="data">{{player.battingDetails.six}}</span>
+                </div>
               </div>
-              <div class="data-block">
-                <span class="title">Best</span>
-                <span class="data">82*</span>
-              </div>
-              <div class="data-block">
-                <span class="title">4's</span>
-                <span class="data">15</span>
+              <div class="right-column">
+                <div class="data-block">
+                  <span class="title">S.R</span>
+                  <span class="data">{{player.battingDetails.strikeRate}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">Best</span>
+                  <span class="data">{{player.battingDetails.bestScore}}</span>
+                </div>
+                <div class="data-block">
+                  <span class="title">4's</span>
+                  <span class="data">{{player.battingDetails.four}}</span>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-template>
         </div>
         <div class="player-profile-info-card1-player-image">
           <img src="./../../../../assets/icon/virat-image.png"/>
         </div>
       </div>
-      <div class="player-profile-info-other-title">BATTING & FIELDING STATISTICS</div>
+      <ng-container *ngIf="player.playerType === 'Bowler';else batsmanBowlingTitle">
+        <div class="player-profile-info-other-title">BATTING & FIELDING STATISTICS</div>
+      </ng-container>
+      <ng-template #batsmanBowlingTitle>
+        <div class="player-profile-info-other-title">BOWLING & FIELDING STATISTICS</div>
+      </ng-template>
       <div class="player-profile-info-card2">
         <div class="player-profile-info-card2-title">RIGHT ARM BOWER</div>
-        <div class="player-profile-info-card2-statistics">
-          <div class="bowling-stats column-1">
-            <div class="data-block">
-              <span class="title">Overs</span>
-              <span class="data">10</span>
+        <ng-container *ngIf="player.playerType === 'Bowler';else batsmanSecondaryCard">
+          <div class="player-profile-info-card2-statistics">
+            <div class="bowling-stats column-1">
+              <div class="data-block">
+                <span class="title">Matches</span>
+                <span class="data">{{player.match}}</span>
+              </div>
+              <div class="data-block">
+                <span class="title">Best Score</span>
+                <span class="data">{{player.battingDetails.bestScore}}</span>
+              </div>
             </div>
-            <div class="data-block">
-              <span class="title">3 W's</span>
-              <span class="data">15</span>
+            <div class="bowling-stats column-2">
+              <div class="data-block">
+                <span class="title">Runs</span>
+                <span class="data">{{player.battingDetails.run}}</span>
+              </div>
+              <div class="data-block">
+                <span class="title">S.R</span>
+                <span class="data">{{player.battingDetails.strikeRate}}</span>
+              </div>
+            </div>
+            <div class="bowling-stats column-3">
+              <div class="data-block">
+                <span class="title">6,s</span>
+                <span class="data">{{player.battingDetails.six}}</span>
+              </div>
+            </div>
+            <div class="bowling-stats column-4">
+              <div class="data-block">
+                <span class="title">4's</span>
+                <span class="data">{{player.battingDetails.four}}</span>
+              </div>
             </div>
           </div>
-          <div class="bowling-stats column-2">
-            <div class="data-block">
-              <span class="title">Wickets</span>
-              <span class="data">10</span>
+        </ng-container>
+        <ng-template #batsmanSecondaryCard>
+          <div class="player-profile-info-card2-statistics">
+            <div class="bowling-stats column-1">
+              <div class="data-block">
+                <span class="title">Overs</span>
+                <span class="data">{{player.bowlingDetails.over}}</span>
+              </div>
+              <div class="data-block">
+                <span class="title">Most WKts</span>
+                <span class="data">{{player.bowlingDetails.mostWicket}}</span>
+              </div>
             </div>
-            <div class="data-block">
-              <span class="title">No Bowls</span>
-              <span class="data">15</span>
+            <div class="bowling-stats column-2">
+              <div class="data-block">
+                <span class="title">Wickets</span>
+                <span class="data">{{player.bowlingDetails.wicket}}</span>
+              </div>
+              <div class="data-block">
+                <span class="title">Economy</span>
+                <span class="data">{{player.bowlingDetails.economy}}</span>
+              </div>
+            </div>
+            <div class="bowling-stats column-3">
+              <div class="data-block">
+                <span class="title">Runs</span>
+                <span class="data">{{player.bowlingDetails.run}}</span>
+              </div>
+            </div>
+            <div class="bowling-stats column-4">
+              <div class="data-block">
+                <span class="title">No Bowls</span>
+                <span class="data">{{player.bowlingDetails.noBall}}</span>
+              </div>
             </div>
           </div>
-          <div class="bowling-stats column-3">
-            <div class="data-block">
-              <span class="title">Runs</span>
-              <span class="data">235</span>
-            </div>
-          </div>
-          <div class="bowling-stats column-4">
-            <div class="data-block">
-              <span class="title">Economy</span>
-              <span class="data">25.5</span>
-            </div>
-          </div>
-        </div>
+        </ng-template>
       </div>
       <div class="player-profile-info-card3">
         <div class="player-profile-info-card3-title">FIELDING STATISTICS</div>
@@ -98,25 +175,25 @@
           <div class="bowling-stats column-1">
             <div class="data-block">
               <span class="title">Catches</span>
-              <span class="data">150</span>
+              <span class="data">{{player.fieldingDetails.catch}}</span>
             </div>
           </div>
           <div class="bowling-stats column-2">
             <div class="data-block">
               <span class="title">Taken</span>
-              <span class="data">70</span>
+              <span class="data">{{player.fieldingDetails.catchTaken}}</span>
             </div>
           </div>
           <div class="bowling-stats column-3">
             <div class="data-block">
               <span class="title">Dropped</span>
-              <span class="data">80</span>
+              <span class="data">{{player.fieldingDetails.catchDroped}}</span>
             </div>
           </div>
           <div class="bowling-stats column-4">
             <div class="data-block">
               <span class="title">Avg</span>
-              <span class="data">40%</span>
+              <span class="data">{{player.fieldingDetails.fieldingAvg}}%</span>
             </div>
           </div>
         </div>
@@ -124,6 +201,3 @@
     </ng-container>
   </div>
 </div>
-<p>
-  player-profile works!
-</p>

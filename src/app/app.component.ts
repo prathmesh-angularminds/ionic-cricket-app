@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AppStorageService } from './service/app-storage.service';
+import { Data } from './models/data';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private storage: AppStorageService, public data: Data) {
+    this.storage.get('isMatchPlayed').subscribe((isMatchPlayed: boolean | null) => {
+      if(isMatchPlayed) {
+        this.data.isMatchPlayed = isMatchPlayed;
+      } else {
+        this.storage.set('isMatchPlayed',this.data.isMatchPlayed);
+      }
+    })
+  }
 }

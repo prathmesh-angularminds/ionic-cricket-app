@@ -3,263 +3,68 @@
     {{pageTitle}}
   </div>
   <div class="player-list-search-container">
-    <input placeholder="Search player"/>
+    <input placeholder="Search player" [(ngModel)]="searchText" />
     <div class="player-list-search-container-button">
-      <img src="../../../../assets/icon/search-icon.svg" />
+      <img class="cross-button" *ngIf="this.searchText" src="../../../../assets/icon/cross_button.svg" (click)="emptySearchedText()"/>
+      <img class="search-button" src="../../../../assets/icon/search-icon.svg" (click)="onPlayerSearched()"/>
     </div>
   </div>
-  <div class="player-list-container">
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
+  <ng-container *ngIf="playerList?.length; else emptyState">
+    <div class="player-list-container">
+      <ng-container *ngFor="let player of playerList">
+        <div class="player-card" [routerLink]="'/home/player-profile'" [queryParams]="{id: player.id}">
+          <div class="player-image">
+            <img src="../../../../assets/icon/virat-image.png"/>
           </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
+          <div class="player-statistics">
+            <div class="player-name">
+              <div class="first-name">{{player.firstName}}</div>
+              <div class="last-name">{{player.lastName}} <span>{{player.jerseyNo}}</span></div>
+            </div>
+            <div class="card-white-image">
+              <img src="../../../../assets/icon/white-line-frame.svg"/>
+            </div>
+            <ng-container *ngIf="player.playerType === 'Batsman' || player.playerType === 'All-Rounder' else bowlerData">
+              <div class="player-numeric-info">
+                <div class="column1">
+                  <div class="title">Match</div>
+                  <div class="data">{{player?.match}}</div>
+                </div>
+                <div class="column2">
+                  <div class="title">Runs</div>
+                  <div class="data">{{player?.battingDetails?.run}}</div>
+                </div>
+                <div class="column3">
+                  <div class="title">S.R</div>
+                  <div class="data">{{player?.battingDetails?.strikeRate}}</div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #bowlerData>
+              <div class="player-numeric-info">
+                <div class="column1">
+                  <div class="title">Match</div>
+                  <div class="data">{{player?.match}}</div>
+                </div>
+                <div class="column2">
+                  <div class="title">Runs</div>
+                  <div class="data">{{player?.bowlerDetails?.wicket}}</div>
+                </div>
+                <div class="column3">
+                  <div class="title">S.R</div>
+                  <div class="data">{{player?.bowlerDetails?.economy}}</div>
+                </div>
+              </div>
+            </ng-template>
           </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
+        </div> 
+      </ng-container>
     </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
+  </ng-container>
+  <ng-template #emptyState>
+    <div class="player-list-empty-container">
+      <img src="../../../../assets/cricket-illustration.gif"/>
+      <div class="player-list-empty-container-text">Player not found !!!</div>
     </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="player-card" (click)="viewPlayerDetails()">
-      <div class="player-image">
-        <img src="../../../../assets/icon/virat-image.png"/>
-      </div>
-      <div class="player-statistics">
-        <div class="player-name">
-          <div class="first-name">CHHATRAPATI</div>
-          <div class="last-name">DAREKAR <span>18</span></div>
-        </div>
-        <div class="card-white-image">
-          <img src="../../../../assets/icon/white-line-frame.svg"/>
-        </div>
-        <div class="player-numeric-info">
-          <div class="column1">
-            <div class="title">Match</div>
-            <div class="data">100</div>
-          </div>
-          <div class="column2">
-            <div class="title">Runs</div>
-            <div class="data">235</div>
-          </div>
-          <div class="column3">
-            <div class="title">S.R</div>
-            <div class="data">10.5</div>
-          </div>
-        </div>
-      </div>
-    </div>  
-  </div>
+  </ng-template>
 </div>

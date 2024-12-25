@@ -11,7 +11,7 @@ import { AddTeamPlayersComponent } from './add-team-players/add-team-players.com
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "match-list",
+    redirectTo: "player-list",
     pathMatch: 'full'
   },
   {

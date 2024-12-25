@@ -24,8 +24,8 @@
       </button>
     </div>
   </div>
-  <div class="create-match-confirmation-checkbox">
-    <input id="isTeamOverSelected" [formControl]="isTeamOverSelected" type="checkbox" [disabled]="true"/><label for="isTeamOverSelected">Are teams and number of overs selected</label>
+  <div class="create-match-confirmation-checkbox" [ngClass]="data.teamAPlayersList.length && data.teamBPlayersList.length && overs?.value ? '' : 'disableCheckBox'">
+    <input id="isTeamOverSelected" type="checkbox" [formControl]="isTeamOverSelected"/><label for="isTeamOverSelected">Are teams and number of overs selected</label>
   </div>
   <div class="create-match-select-batting-team" id="toss" *ngIf="isTeamOverSelected.value">
     <span>Select a team which will bat first</span>

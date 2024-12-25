@@ -33,8 +33,6 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
 
   createNewMatch() {
     this.match = this.fb.group({
-      teamAPlayersList: this.data.teamAPlayersList || [],
-      teamBPlayersList: this.data.teamBPlayersList || [],
       overs: [this.data.overs,Validators.required],
       isTeamOverSelected: [false],
       teamName: [""]
@@ -64,6 +62,7 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.data.overs = this.overs?.value
+    this.data.tossWinningTeam = this.teamName?.value
   }
 
 }

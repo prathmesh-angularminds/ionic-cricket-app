@@ -110,6 +110,9 @@
             }
         }
     }
+    .disableCheckBox {
+        pointer-events: none;
+    }
     &-confirmation-checkbox {
         width: 100%;
         border-top: 1px solid $white;
@@ -117,28 +120,42 @@
         box-sizing: border-box;
         display: flex;
         align-items: center;
+        font-size: 14px;
         gap: 3%;
-        input[type="checkbox"] {
-            accent-color: $white;
-            width: 20px;
+        input[type=checkbox] {
+            position: relative;
+            border: 2px solid $text-color;
+            border-radius: 2px;
+            background: none;
+            cursor: pointer;
+            line-height: 0;
+            margin-right: .2em;
+            outline: 0;
+            padding: 0 !important;
+            vertical-align: text-top;
             height: 20px;
-            background-color: $white;
+            width: 20px;
             -webkit-appearance: none;
-            background-color: $white;
+            opacity: .5;
+            scale: 0.8;
+            background: $white;
         }
-        input[type="checkbox"]:checked {
-            -webkit-appearance: auto;
-            transform: scale(1);
+        input[type=checkbox]:checked {
+            background-color: $text-color;
+            opacity: 1;
         }
-        label {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        label::after {
-            content: "  *";
-            font-size: 14px;
-            font-weight: 600;
-            color: $wicket;
+        input[type=checkbox]:before {
+            content: '';
+            position: absolute;
+            right: 50%;
+            top: 50%;
+            width: 4px;
+            height: 10px;
+            border: solid #FFF;
+            border-width: 0 2px 2px 0;
+            margin: -1px -1px 0 -1px;
+            transform: rotate(45deg) translate(-50%, -50%);
+            z-index: 2;
         }
     }
     .create-match-select-batting-team {

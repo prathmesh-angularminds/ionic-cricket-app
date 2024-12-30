@@ -9,6 +9,10 @@ import { Data } from './models/data';
 })
 export class AppComponent {
   constructor(private storage: AppStorageService, public data: Data) {
+    this.getIsMatchPlayedData();
+  }
+
+  getIsMatchPlayedData() {
     this.storage.get('isMatchPlayed').subscribe((isMatchPlayed: boolean | null) => {
       if(isMatchPlayed) {
         this.data.isMatchPlayed = isMatchPlayed;

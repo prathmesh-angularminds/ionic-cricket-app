@@ -9,6 +9,7 @@ import { Player } from '../models/player.interface';
 export class FirebaseService {
 
   player = collection(this.fireStore,'players');
+  match = collection(this.fireStore,'match');
   constructor(private fireStore: Firestore) {}
 
   getPlayerList(): Observable<any> {
@@ -19,6 +20,12 @@ export class FirebaseService {
     addDoc(this.player,player).then((response) => {
       console.log(response.id)
     });
+  }
+
+  addMatch(match: any) {
+    addDoc(this.match,match).then((response) => {
+      console.log(response.id);
+    })
   }
 
   getDocument(id: string) {

@@ -1,5 +1,7 @@
 export interface Player {
     id?: "",
+    isSelected?: boolean,
+    teamName?: string,
     firstName: string,
     lastName: string,
     fullName: string,

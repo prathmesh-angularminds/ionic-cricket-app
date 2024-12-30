@@ -5,93 +5,13 @@ import { Injectable } from '@angular/core';
 })
 
 export class Data {
+    public match: any; 
     public isMatchPlayed: boolean = true;
-    public allPlayersList: any = [];
-    public teamAPlayersList: any = [
-        {
-            id: "01",
-            fullName: "Prathamesh Vibhute",
-            firstName: "Prathamesh",
-            lastName: "Vibhute",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "02",
-            fullName: "Chhatrapati Darekar",
-            firstName: "Chhatrapati",
-            lastName: "Darekar",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "03",
-            fullName: "Gaurav Patekar",
-            firstName: "Gaurav",
-            lastName: "Patekar",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "04",
-            fullName: "Gaurav Supalkar",
-            firstName: "Gaurav",
-            lastName: "Supalkar",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "05",
-            fullName: "Prathamesh Choudhary",
-            firstName: "Prathamesh",
-            lastName: "choudhary",
-            isSelected: false,
-            teamName: "",
-        }
-    ];
-    public teamBPlayersList: any = [
-        {
-            id: "06",
-            fullName: "Deep More",
-            firstName: "Deep",
-            lastName: "More",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "07",
-            fullName: "Sagar More",
-            firstName: "Sagar",
-            lastName: "More",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "08",
-            fullName: "Akshay",
-            firstName: "Akshay",
-            lastName: "",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "09",
-            fullName: "Satya Pisal",
-            firstName: "Satya",
-            lastName: "Pisal",
-            isSelected: false,
-            teamName: "",
-        },
-        {
-            id: "10",
-            fullName: "Karan Thite",
-            firstName: "Karan",
-            lastName: "Thite",
-            isSelected: false,
-            teamName: "",
-        }
-    ];
-    public overs: any = 4;
+    public playerList: any = [];
+    public teamPlayerList: any = [];
+    public teamAPlayersList: any = [];
+    public teamBPlayersList: any = [];
+    public overs: any = 0;
     public tossWinningTeam: string = "TEAM A";
     public scoreKeyboard: any = [
         [
@@ -309,4 +229,5 @@ export class Data {
             },
         ],
     ]
+    public afterMatchMessage: string = "";
 }

@@ -16,7 +16,6 @@ export class AppStorageService implements OnInit {
   public get(key: string): Observable<any> {
     return from(
       this._storage?.get(key).then((data: any) => {
-        console.log("Data",data);
         if(data) {
           return data;
         }

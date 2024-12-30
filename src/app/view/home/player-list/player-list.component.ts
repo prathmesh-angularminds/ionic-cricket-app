@@ -1,11 +1,10 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs';
 import { Data } from 'src/app/models/data';
 import { Player } from 'src/app/models/player.interface';
 import { AppStorageService } from 'src/app/service/app-storage.service';
+import { CommonService } from 'src/app/service/common.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
-// import { deepCopy } from '@angular-devkit/core';
 
 @Component({
   selector: 'app-player-list',
@@ -19,21 +18,20 @@ export class PlayerListComponent  implements OnInit {
   playerList: any = [];
   searchText: string = "";
 
-  
   constructor(
     private router: Router,
     public firebaseService: FirebaseService,
     public data: Data,
-    private storge: AppStorageService
+    private storage: AppStorageService,
+    private commonService: CommonService
   ) { }
 
   ngOnInit() {
-    this.storge.get('playerList').subscribe({
+    this.storage.get('playerList').subscribe({
       next: (playerList: any) => {
         if(!this.data.isMatchPlayed && playerList) {
-          console.log("API not called");
           this.playerList = playerList;
-          this.data.allPlayersList = playerList;
+          this.data.playerList = playerList;
         } else {
           this.getAllPlayers();
         }
@@ -48,18 +46,18 @@ export class PlayerListComponent  implements OnInit {
   getAllPlayers() {
     this.firebaseService.getPlayerList().subscribe({
       next: (playerList) => {
-        this.data.allPlayersList = playerList;
-        this.playerList = playerList;
+        this.data.playerList = playerList;
+        this.playerList = this.data.playerList;
         this.data.isMatchPlayed = false;
-        this.storge.set('playerList',playerList);
-        this.storge.set('isMatchPlayed',false);
+        this.storage.set('playerList',this.data.playerList);
+        this.storage.set('isMatchPlayed',false);
       },
       error: (e) => {console.log(e)},
     })
   }
 
   searchForAPlayer() {
-    return this.data.allPlayersList.filter((player: Player) => player.fullName.toLocaleLowerCase().includes(this.searchText))
+    return this.data.playerList.filter((player: Player) => player.fullName.toLocaleLowerCase().includes(this.searchText))
   }
 
   onPlayerSearched() {
@@ -70,7 +68,7 @@ export class PlayerListComponent  implements OnInit {
   }
 
   emptySearchedText() {
-    this.playerList = this.data.allPlayersList;
+    this.playerList = this.data.playerList;
     this.searchText = "";
   }
 }

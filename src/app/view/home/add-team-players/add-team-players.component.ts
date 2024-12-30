@@ -11,7 +11,7 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
 
   teamName!: string;
   backUrl: string = "/home/create-new-match";
-  allPlayersList: any;
+  playerList: any;
   selectedTeamPlayerList: any = [];
   constructor(private activatedRoute: ActivatedRoute, public data: Data) {}
 
@@ -23,7 +23,7 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
   }
 
   initiaizePlayerList() {
-    this.allPlayersList = JSON.parse(JSON.stringify(this.data.allPlayersList));
+    this.playerList = JSON.parse(JSON.stringify(this.data.teamPlayerList));
     if(this.teamName === 'Team A') {
       this.selectedTeamPlayerList = JSON.parse(JSON.stringify(this.data.teamAPlayersList || []));
     } else {
@@ -31,8 +31,8 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateAllPlayersList(id: string,isSelected: boolean,teamName: string) {
-    this.allPlayersList.forEach((player: any) => {
+  updateplayerList(id: string,isSelected: boolean,teamName: string) {
+    this.playerList.forEach((player: any) => {
       if(player.id === id) {
         player.isSelected = isSelected;
         player.teamName = teamName
@@ -42,16 +42,16 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
 
   addPlayerInTeam(player: any) {
     this.selectedTeamPlayerList.push(player);
-    this.updateAllPlayersList(player.id,true,this.teamName)
+    this.updateplayerList(player.id,true,this.teamName)
   }
 
   removePlayerFromTeam(player: any,index: number) {
     this.selectedTeamPlayerList.splice(index,1)
-    this.updateAllPlayersList(player.id,false,"")
+    this.updateplayerList(player.id,false,"")
   }
 
   onPlayerSelectionCompleted() {
-    this.data.allPlayersList = this.allPlayersList;
+    this.data.teamPlayerList = this.playerList;
     if(this.teamName === 'Team A') {
       this.data.teamAPlayersList = this.selectedTeamPlayerList;
     } else {

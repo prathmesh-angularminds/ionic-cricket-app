@@ -9,6 +9,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    overflow-y: scroll;
     &-header {
         width: 100%;
         display: flex;
@@ -31,32 +32,119 @@
     }
     &-table {
         width: 100%;
-        padding: 6% 0;
+        padding-top: 6%;
         box-sizing: border-box;
         display: flex;
+        flex-direction: column;
         .add-team-players-all-players-list, .add-team-players-selected-player-list {
-            width: 50%;
-            border-right: 1px solid $white;
+            width: 100%;
             .title {
                 font-size: 14px;
                 font-weight: 600;
                 margin-bottom: 20px;
             }
-            .player-card {
-                height: 45px;
-                width: 160px;
-                font-size: 10px;
-                font-weight: 500;
-                background-color: $white;
-                border-radius: 5px;
+            .selected-player-list {
+                max-width: 100%;
+                height: 170px;
                 display: flex;
-                align-items: center;
-                padding: 0% 8%;
-                margin-bottom: 6%;
+                gap: 3%;
+                flex-direction: row;
+                overflow-x: scroll;
+                margin-bottom: 5%;
+                .player-card {
+                    min-width: 130px;
+                    height: 100%;
+                    border-radius: 8px;
+                    border: 2px solid $white;
+                    background: $white-card;
+                    position: relative;
+                    .player-image {
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                        img {
+                            height: 100%;
+                            width: 120%;
+                            border-radius: 4px;
+                        }
+                    }
+                    .selected-player-card-inner {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        background: $player-card-bg;
+                        border-radius: 5px;
+                        padding: 6% 6% 8% 6%;
+                        color: $white;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        .player-name {
+                            .first-name {
+                                font-size: 8px;
+                            }
+                            .last-name {
+                                font-size: 12px;
+                                font-weight: 700
+                            }
+                        }
+                    }
+                    .captain {
+                        position: absolute;
+                        top: 5%;
+                        right: 5%;
+                        width: 20px;
+                        height: 20px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        border-radius: 20px;
+                        color: $white;
+                        background-color: $text-color;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+            .selected-player-list-empty-state {
+                width: 100%;
+                height: 170px;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+            }
+            .all-player-list {
+                width: 100%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4%; 
+                .player-card {
+                    width: 48%;
+                    height: 50px;
+                    background: $white;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    margin-bottom: 3%;
+                    box-sizing: border-box;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+                .no-player-left {
+                    width: 100%;
+                    margin-bottom: 20px;
+                    box-sizing: border-box;
+                    text-align: center;
+                }
+            }
+            .selected-player-list::-webkit-scrollbar {
+                display: none;
             }
         }
         .add-team-players-selected-player-list {
-            padding-left: 4%;
             border: none;
             .add-bookmark-icon {
                 background: url('../../../../assets/icon/bookmark.png'), $white;
@@ -66,15 +154,17 @@
         }
     }
     &-done-button {
-        position: absolute;
-        bottom: 0px;
         background-color: $white;
-        height: 70px;
+        min-height: 60px;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 600;
+        border-radius: 5px;
     }
+}
+.add-team-players::-webkit-scrollbar {
+    display: none;
 }

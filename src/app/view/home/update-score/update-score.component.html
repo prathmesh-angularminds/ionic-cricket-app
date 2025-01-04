@@ -1,60 +1,65 @@
 <div class="update-score">
   <div class="update-score-header">
     <app-back-button [url]="url"></app-back-button>
+    <app-dropdown></app-dropdown>
+    <div>
+      <button class="dropdown"></button>
+      <ng-container></ng-container>
+    </div>
     <div class="update-score-title">
-      <div class="team-name">TEAM A</div>
-      <div class="inning-title">1st Inning</div>
+      <div class="team-name">{{match.inning[inning].battingTeam}}</div>
+      <div class="inning-title">
+        <ng-container *ngIf="inning === 0">{{inning + 1}}st&nbsp;</ng-container> 
+        <ng-container *ngIf="inning === 1">{{inning + 1}}nd&nbsp;</ng-container> 
+        <ng-container *ngIf="inning === 2">{{inning + 1}}rd&nbsp;</ng-container> 
+        <ng-container *ngIf="inning >= 3">{{inning + 1}}th&nbsp;</ng-container> 
+        Inning
+      </div>
     </div>
   </div>
   <div class="update-score-run-wickets">
-    30-4
+    {{match.inning[inning].totalRunScored}}-{{match.inning[inning].totalWicketsFallen}}
   </div>
   <div class="update-score-extra-details">
-    <span>Ex - 0</span>
-    <span>Ov - 2.2 / 4</span>
-    <span>CRR - 10.5</span>
+    <span>Ex - {{match.inning[inning].extraRuns.wide + match.inning[inning].extraRuns.noBall}}</span>
+    <span>Ov - {{match.inning[inning].over}} / {{match.totalNumberOfOver}}</span>
+    <span>CRR - {{match.inning[inning].currentRunRate}}</span>
   </div>
-  <div class="update-score-second-inning-details">
+  <div class="update-score-second-inning-details" *ngIf="this.match.hasStartedSecondInning">
     <div class="target-score-rr">
-      <span>Target 40</span>
-      <span>Req.RR - 10.5</span>
+      <span>Target {{target}}</span>
+      <span>Req.RR - {{requiredRunRate}}</span>
     </div>
-    <div class="required-score-details">Need 10 runs of 8 balls</div>
+    <div class="required-score-details">Need {{requiredRun}} runs of {{ballsLeft}} balls</div>
   </div>
   <div class="update-score-batting-table">
     <table>
       <thead>
         <tr>
-          <th style="text-align: left; padding-left: 3%; width: 40%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Batting</th>
-          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">R</th>
-          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">B</th>
-          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">6s</th>
-          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">4s</th>
-          <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">S.R</th>
+          <ng-container *ngFor="let headerData of currentBattingPairTable.tableHeader; let i = index">
+            <th *ngIf="i === 0; else smallWidth" style="text-align: left; padding-left: 3%; width: 40%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">{{headerData}}</th>
+            <ng-template #smallWidth>
+              <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">{{headerData}}</th>
+            </ng-template>
+          </ng-container>
         </tr>
       </thead>
       <tbody>
-        <tr class="batsman-details" style="border-top: 1px solid white;">
-          <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
-            <span>C . Darekar&nbsp;&nbsp;<span class="on-strike"></span></span>
-          </td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">100</td>
-        </tr>
-        <tr class="batsman-details" style="border-top: 1px solid white;">
-          <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
-            <span *ngIf="false">C . Darekar&nbsp;&nbsp;<span class="on-strike"></span></span>
-            <button>New Batsman</button>
-          </td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
-          <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">100</td>
-        </tr>
+        <ng-container *ngFor="let batsman of currentBattingPairTable.battingPairList; let i = index">
+          <tr class="batsman-details" style="border-top: 1px solid white;">
+            <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
+              <span *ngIf="batsman.isOnCrease; else showButton">{{batsman.firstName[0] + " . " + batsman.lastName}}&nbsp;&nbsp;<span class="on-strike" *ngIf="batsman.isOnStrike"></span></span>
+              <ng-template #showButton>
+                <button (click)="changeBatsman(i)"  [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: true}">New Batsman</button>
+              </ng-template>
+            </td>
+            <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{batsman.run}}</td>
+            <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{batsman.ball}}</td>
+            <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{batsman.six}}</td>
+            <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{batsman.four}}</td>
+            <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{batsman.strikeRate}}</td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
@@ -62,66 +67,217 @@
     <table>
       <thead>
         <tr>
-          <th style="text-align: left; padding-left: 3%; width: 50%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Bowling</th>
-          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Ov</th>
-          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Bow</th>
-          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Wkts</th>
-          <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Econ</th>
+          <ng-container *ngFor="let headerData of currentBowlerTable.tableHeader; let i = index">
+            <th *ngIf="i === 0; else smallWidth" style="text-align: left; padding-left: 3%; width: 50%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">{{headerData}}</th>
+            <ng-template #smallWidth>
+              <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">{{headerData}}</th>
+            </ng-template>
+          </ng-container>
         </tr>
       </thead>
       <tbody>
         <tr class="batsman-details" style="border-top: 1px solid white">
-          <td style="text-align: left; padding-left: 3%; width: 50%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">Vishal</td>
-          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">20</td>
-          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">6</td>
-          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
-          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">2</td>
+          <td style="text-align: left; padding-left: 3%; width: 50%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">
+            <span *ngIf="currentBowlerTable.currentBowler.isCurrentBowler; else showButton">{{currentBowlerTable.currentBowler.firstName[0] + " . " + currentBowlerTable.currentBowler.lastName}}</span>
+              <ng-template #showButton>
+                <button [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: true}">New Bowler</button>
+              </ng-template>
+          </td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{currentBowlerTable.currentBowler.over}}</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{currentBowlerTable.currentBowler.run}}</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{currentBowlerTable.currentBowler.wicket}}</td>
+          <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{currentBowlerTable.currentBowler.economy}}</td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="update-score-over-records">
-    <span class="run-on-ball">1</span>
-    <span class="run-on-ball wicket">W</span>
-    <span class="run-on-ball boundary">6</span>
+    <ng-container *ngIf="currentBowlerTable.currentBowler.id;else lastOverScore">
+      <ng-container *ngFor="let ball of currentBowlerTable.currentBowler?.ball">
+        <span [ngClass]="ball.class" class="run-on-ball">{{ball.label}}</span>
+      </ng-container>
+    </ng-container>
+    <ng-template #lastOverScore>
+      <div *ngIf="hasStartedInning" class="run-conceded-text">Runs conceded in last over: <b>{{runScoredInLastOver}}</b></div>
+    </ng-template>
   </div>
-  <div class="update-score-bowling-table"></div>
   <div class="update-score-keypad">
-    <div class="column1">
-      <span>1</span>
-      <span>6</span>
-      <span class="wicket">HW</span>
-      <span>2 - RO</span>
+    <div class="column1" *ngFor="let keyboardColumn of scoreKeyboard">
+      <ng-container *ngFor="let keyboardCell of keyboardColumn">
+        <span [ngClass]="areAllPlayersSelected ? '' : 'disable-keyboard'" [class]="keyboardCell.class" (click)="onButtonClicked(keyboardCell)">{{keyboardCell.label}}</span>
+      </ng-container>
     </div>
-    <div class="column1">
-      <span>2</span>
-      <span>2D</span>
-      <span class="wicket">W</span>
-      <span>3 - RO</span>
+  </div>
+  
+  <!-- New batsman modal -->
+  <div class="new-batsman-modal-page" *ngIf="showNewBatsmanModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Select New Player</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let batsman of this.getCurrentBattingTeam()">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{batsman.fullName}} <span *ngIf="batsman.battingStats.isPlayerOut">&nbsp;(Out)</span></div>
+                <div class="batsman-score">({{batsman.battingStats.run}}) {{batsman.battingStats.ball}}</div>
+              </div>
+            </div>
+            <input *ngIf="!batsman.battingStats.isPlayerOut && !batsman.battingStats.isOnCrease" type="checkbox" [(ngModel)]="batsman.isSelectedForBatting" (click)="onNewBatsmanSelected(this.getCurrentBattingTeam(),batsman.id)"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}" (click)="onBatsmanSelected();">Save</button>
+      </div>
     </div>
-    <div class="column1">
-      <span>3</span>
-      <span>WD</span>
-      <span>RO</span>
-      <span>4 - RO</span>
+  </div>
+
+  <!-- New bowler modal -->
+  <div class="new-batsman-modal-page" *ngIf="showNewBowlerModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Select New Bowler</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let bowler of this.getCurrentBowlingTeam()">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{bowler.fullName}}</div>
+                <div class="batsman-score">{{bowler.bowlingStats.run}} ({{bowler.bowlingStats.over}} Ov) {{bowler.bowlingStats.wicket}} WKs</div>
+              </div>
+            </div>
+            <input *ngIf="!bowler.bowlingStats.isPlayerOut" type="checkbox" [(ngModel)]="bowler.isSelectedForBowing" (click)="onNewBowlerSelected(this.getCurrentBowlingTeam(),bowler.id)"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}" (click)="onBowlerSelected()">Save</button>
+      </div>
     </div>
-    <div class="column1">
-      <span>4</span>
-      <span class="wicket">CW</span>
-      <span>1 + RO</span>
-      <span>0</span>
+  </div>
+
+  <!-- Retired hurt modal -->
+  <div class="new-batsman-modal-page" *ngIf="showPlayerReturnDeclareModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Select Retired Hurt Player</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showPlayerReturnDeclareModal: null}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let batsman of this.currentBattingPairTable.battingPairList; let i = index">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{batsman.fullName}}</div>
+                <div class="batsman-score">({{batsman.run}}) {{batsman.ball}}</div>
+              </div>
+            </div>
+            <input *ngIf="batsman.isOnCrease" type="checkbox" [(ngModel)]="batsman.isPlayerSelected" (click)="onRetieredBatsmanSelected(i,batsman.isOnStrike)"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showPlayerReturnDeclareModal: null}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showPlayerReturnDeclareModal: null}" (click)="onBatsmanMarkedRetiered()">Save</button>
+      </div>
     </div>
-    <div class="column1">
-      <span>NB</span>
-      <span>1 + NB</span>
-      <span>2 + NB</span>
-      <span>3 + NB</span>
+  </div>
+
+  <!-- Caught out modal -->
+  <div class="new-batsman-modal-page" *ngIf="showCaughtOutModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Batsman Caught By</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let fielder of this.getCurrentBowlingTeam()">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{fielder.fullName}}</div>
+              </div>
+            </div>
+            <input type="checkbox" [(ngModel)]="fielder.isSelectedForFielding" (click)="onNewFielderSelected(this.getCurrentBowlingTeam(),fielder.id)"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}" (click)="onFielderSelected()">Save</button>
+      </div>
     </div>
-    <div class="column1">
-      <span>4 + NB</span>
-      <span>6 + NB</span>
-      <span>RD</span>
-      <span>Undo</span>
+  </div>
+
+  <!-- Run out modal -->
+  <div class="new-batsman-modal-page" *ngIf="showRunOutModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Select Batsman</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showRunOutModal: null}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let batsman of this.currentBattingPairTable.battingPairList">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{batsman.fullName}} &nbsp;&nbsp;<div class="on-strike" *ngIf="batsman.isOnStrike"></div></div>
+                <div class="batsman-score">({{batsman.run}}) {{batsman.ball}}</div>
+              </div>
+            </div>
+            <input *ngIf="batsman.isOnCrease" type="checkbox" [(ngModel)]="batsman.isSelectedForRunOut" (click)="onRunOutBatsmanSelected(batsman.id)"/>
+          </div>
+        </div>
+        <div class="title">Batsman Runout By</div>
+        <div class="batsman-list runout-fielders-list">
+          <div class="batsman-modal-card" *ngFor="let fielder of this.getCurrentBowlingTeam()">
+            <div class="batsman-profile-name">
+              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{fielder.fullName}}</div>
+              </div>
+            </div>
+            <input type="checkbox" [(ngModel)]="fielder.isSelectedForFielding" (click)="onNewFielderSelected(this.getCurrentBowlingTeam(),fielder.id)"/>
+          </div>
+        </div>
+        <div class="runout-checkbox"><label for="checkIsOnStrikeBatsman">Is on-strike batsman out: </label><input id="checkIsOnStrikeBatsman" type="checkbox" [(ngModel)]="isOnStrikeBatsmanRunOut"/></div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showRunOutModal: null}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showRunOutModal: null}" (click)="onRunOutDataSelected()">Save</button>
+      </div>
     </div>
+  </div>
+
+  <div class="after-inning-screen" *ngIf="showInningCompletedScreen">
+    <!-- <div class="close-button">
+      <img src="../../../../assets/icon/cross_button.svg" />
+    </div> -->
+    <div class="team-details">{{this.currentBattingTeam}} Needs</div>
+    <div class="score-needed">{{target}}</div>
+    <div class="overs-details">runs of <span>{{this.data.overs}}</span> overs</div>
+    <button class="start-second-button" (click)="this.showInningCompletedScreen = false">Start 2nd Inning</button>
   </div>
 </div>

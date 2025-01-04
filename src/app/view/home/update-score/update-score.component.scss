@@ -17,6 +17,10 @@
             position: absolute;
             left: 16px;
         }
+        app-dropdown {
+            position: absolute;
+            right: 16px;
+        }
         .update-score-title {
             width: 100%;
             text-align: center;
@@ -124,14 +128,17 @@
         overflow-x: scroll;
         .run-on-ball {
             display: block;
-            width: 20px;
-            height: 20px;
+            min-width: 30px;
+            height: 30px;
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: $white;
             font-size: 8px;
+        }
+        .run-conceded-text {
+            font-size: 12px;
         }
         .wicket {
             background-color: $wicket;
@@ -158,6 +165,9 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            .disable-keyboard {
+                pointer-events: none;
+            }
             span {
                 display: flex;
                 justify-content: center;
@@ -174,5 +184,250 @@
     }
     &-keypad::-webkit-scrollbar {
         display: none;
+    }
+    .new-batsman-modal-page {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(2px);
+        z-index: 3;
+        padding: 0 4%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .new-batsman-modal {
+            width: 100%;
+            background: $white;
+            padding: 6%;
+            box-sizing: border-box;
+            border-radius: 10px;
+            .modal-header {
+                width: 100%;
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5%;
+                box-sizing: border-box;
+                .title {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+                .cross-button {
+
+                }
+            }
+            .modal-body {
+                width: 100%;
+                overflow-y: scroll;
+                .title {
+                    font-size: 16px;
+                    font-weight: 700;
+                    margin: 5% 0%;
+                }
+                .batsman-list, .runout-fielders-list {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    .batsman-modal-card {
+                        height: 45px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin: 2.5% 0;
+                        box-sizing: border-box;
+                        .batsman-profile-name {
+                            display: flex;
+                            align-items: center;
+                            width: 70%;
+                            gap: 3%;
+                            .batsman-details {
+                                font-size: 12px;
+                                font-weight: 600;
+                                .batsman-name {
+                                    display: flex;
+                                    align-items: center;
+                                    .on-strike {
+                                        background: $pink;
+                                        width: 4px;
+                                        height: 4px;
+                                        rotate: 45deg;
+                                    }
+                                }
+                                .batsman-score {
+                                    font-weight: 500;
+                                }
+                            }
+                        }
+                        input[type=checkbox] {
+                            position: relative;
+                            border: 2px solid $text-color;
+                            border-radius: 2px;
+                            background: none;
+                            cursor: pointer;
+                            line-height: 0;
+                            margin-right: .2em;
+                            outline: 0;
+                            padding: 0 !important;
+                            vertical-align: text-top;
+                            height: 20px;
+                            width: 20px;
+                            -webkit-appearance: none;
+                            opacity: .5;
+                            scale: 0.8;
+                        }
+                        input[type=checkbox]:checked {
+                            background-color: $text-color;
+                            opacity: 1;
+                        }
+                        input[type=checkbox]:before {
+                            content: '';
+                            position: absolute;
+                            right: 50%;
+                            top: 50%;
+                            width: 4px;
+                            height: 10px;
+                            border: solid #FFF;
+                            border-width: 0 2px 2px 0;
+                            margin: -1px -1px 0 -1px;
+                            transform: rotate(45deg) translate(-50%, -50%);
+                            z-index: 2;
+                        }
+                    }
+                }
+                .runout-fielders-list {
+                    width: 100%;
+                    height: 170px;
+                    overflow-y: scroll;
+                }
+                .runout-fielders-list::-webkit-scrollbar {
+                    display: none;
+                }
+                .runout-checkbox {
+                    font-size: 12px;
+                    font-weight: 600;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 2%;
+                    padding-top: 4%;
+                    border-top: 1px solid $text-color;
+                    input[type=checkbox] {
+                        position: relative;
+                        border: 2px solid $text-color;
+                        border-radius: 2px;
+                        background: none;
+                        cursor: pointer;
+                        line-height: 0;
+                        margin-right: .2em;
+                        outline: 0;
+                        padding: 0 !important;
+                        vertical-align: text-top;
+                        height: 20px;
+                        width: 20px;
+                        -webkit-appearance: none;
+                        opacity: .5;
+                        scale: 0.8;
+                    }
+                    input[type=checkbox]:checked {
+                        background-color: $text-color;
+                        opacity: 1;
+                    }
+                    input[type=checkbox]:before {
+                        content: '';
+                        position: absolute;
+                        right: 50%;
+                        top: 50%;
+                        width: 4px;
+                        height: 10px;
+                        border: solid #FFF;
+                        border-width: 0 2px 2px 0;
+                        margin: -1px -1px 0 -1px;
+                        transform: rotate(45deg) translate(-50%, -50%);
+                        z-index: 2;
+                    }
+                }
+            }
+            .modal-footer {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 6%;
+                box-sizing: border-box;
+                .cancel-button, .save-button {
+                    width: 40%;
+                    height: 40px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: $white;
+                    background: $text-color;
+                    border: 1px solid $text-color;
+                    border-radius: 5px;
+                }
+                .cancel-button {
+                    color: $text-color;
+                    background: $white;
+                    border: 1px solid $text-color;
+                }
+            }
+        }
+    }
+    .after-inning-screen {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 4%;
+        box-sizing: border-box;
+        .close-button {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 3.5%;
+            right: 4%;
+        }
+        .team-details, .overs-details {
+            width: 100%;
+            font-size: 20px;
+            font-weight: 700;
+            color: $white;
+            text-align: left;
+        }
+        .overs-details {
+            text-align: right;
+            span {
+                color: $text-color;
+            }
+        }
+        .score-needed {
+            width: 100%;
+            font-size: 80px;
+            font-weight: 800;
+            color: $pink;
+            text-align: center;
+        }
+        .start-second-button {
+            width: 70%;
+            height: 60px;
+            background: $white;
+            color: $text-color;
+            border-radius: 5px;
+            margin-top: 10%;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-weight: 600;
+        }
     }
 }

@@ -88,19 +88,19 @@ export class UpdateScoreComponent implements OnInit {
   }
 
   getCurrentBattingTeam() {
-    if(this.currentBattingTeam.includes('TEAM A')) {
+    if(this.currentBattingTeam.includes('SANGHARSH A')) {
       return this.teamA;
     }
-    if(this.currentBattingTeam.includes('TEAM B')) {
+    if(this.currentBattingTeam.includes('SANGHARSH B')) {
       return this.teamB;
     }
   }
 
   getCurrentBowlingTeam() {
-    if(this.currentBattingTeam.includes('TEAM A')) {
+    if(this.currentBattingTeam.includes('SANGHARSH A')) {
       return this.teamB;
     }
-    if(this.currentBattingTeam.includes('TEAM B')) {
+    if(this.currentBattingTeam.includes('SANGHARSH B')) {
       return this.teamA;
     }
   }
@@ -191,6 +191,7 @@ export class UpdateScoreComponent implements OnInit {
       this.data.isMatchPlayed = true;
       this.match.afterMatchMessage = this.setAfterMatchMessage();
       this.data.match = this.match;
+      this.match['matchCard'] = this.commonService.createMatchCard();
       this.firebaseService.addMatch(this.match);
       this.router.navigate(['/home/match-summary']);
     }
@@ -229,7 +230,6 @@ export class UpdateScoreComponent implements OnInit {
         break;
       case "NOBALL":
         this.updateNoBallCount();
-        keyboardCell.run -= 1;
         if(keyboardCell.run) {
           this.updateOnStrikeBatsmanScore(keyboardCell);
         }
@@ -277,7 +277,7 @@ export class UpdateScoreComponent implements OnInit {
     }
     if(this.isInningCompleted()) {
       this.showInningCompletedScreen = true;
-      let teamName = this.data.tossWinningTeam.includes('TEAM A') ? "TEAM B" : "TEAM A";
+      let teamName = this.data.tossWinningTeam.includes('SANGHARSH A') ? "SANGHARSH B" : "SANGHARSH B";
       this.onInningCompleted(teamName);
       this.currentBattingTeam = teamName;
       this.battingTeamLength = this.getCurrentBattingTeam().length;
@@ -359,15 +359,23 @@ export class UpdateScoreComponent implements OnInit {
   updateOnStrikeBatsmanScore(keyboardCell: any) {
     this.currentBattingPairTable.battingPairList.forEach((batsman: any) => {
       if(batsman.isOnStrike) {
-        if(keyboardCell.type !== 'NOBALL' || keyboardCell.type !== 'WIDE')
+        if(keyboardCell.type !== 'NOBALL' && keyboardCell.type !== 'WIDE')
           batsman.ball++;
-        batsman.run += keyboardCell.run;
-        if(keyboardCell.run === 6) {
+        if(keyboardCell.type === 'NOBALL') {
+          batsman.run += (keyboardCell.run - 1);
+        } else if(keyboardCell.type === 'WIDE') {
+          batsman.run += 0;
+        } else {
+          batsman.run += keyboardCell.run;
+        }
+        if(keyboardCell.run === 6 || keyboardCell.type === '6 + NB') {
           batsman.six++;
-        } else if(keyboardCell.run === 4) {
+        } else if(keyboardCell.run === 4 || keyboardCell.type === '4 + NB') {
           batsman.four++;
         }
-        batsman.strikeRate = ((batsman.run / batsman.ball) * 100).toFixed(0);
+        if(keyboardCell.type !== 'NOBALL' && keyboardCell.type !== 'WIDE') {
+          batsman.strikeRate = ((batsman.run / batsman.ball) * 100).toFixed(0);
+        }
         this.updateMatchObjectBatsmanScore(batsman.id,batsman.run,batsman.four,batsman.six,batsman.ball,batsman.strikeRate);
       }
     })

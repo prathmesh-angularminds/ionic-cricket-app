@@ -24,7 +24,7 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
 
   initiaizePlayerList() {
     this.playerList = JSON.parse(JSON.stringify(this.data.teamPlayerList));
-    if(this.teamName === 'Team A') {
+    if(this.teamName === 'SANGHARSH A') {
       this.selectedTeamPlayerList = JSON.parse(JSON.stringify(this.data.teamAPlayersList || []));
     } else {
       this.selectedTeamPlayerList = JSON.parse(JSON.stringify(this.data.teamBPlayersList || []));
@@ -52,7 +52,7 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
 
   onPlayerSelectionCompleted() {
     this.data.teamPlayerList = this.playerList;
-    if(this.teamName === 'Team A') {
+    if(this.teamName === 'SANGHARSH A') {
       this.data.teamAPlayersList = this.selectedTeamPlayerList;
     } else {
       this.data.teamBPlayersList = this.selectedTeamPlayerList;

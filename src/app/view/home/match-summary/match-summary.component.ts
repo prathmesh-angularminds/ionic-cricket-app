@@ -33,7 +33,7 @@ export class MatchSummaryComponent  implements OnInit {
 
   ngOnInit() {
     if(this.data.isMatchPlayed) {
-      this.dropDownList.pop();
+      this.dropDownList.shift();
     }
     this.screenWidth = window.innerWidth;
     this.activatedRoute.queryParams.subscribe({

@@ -15,6 +15,7 @@ import { UpdateScoreComponent } from './update-score/update-score.component';
 import { CreateMatchComponent } from './create-match/create-match.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddTeamPlayersComponent } from './add-team-players/add-team-players.component';
+import { DropdownComponent } from 'src/app/shared/dropdown/dropdown.component';
 
 
 @NgModule({

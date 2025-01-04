@@ -19,18 +19,16 @@
         <div class="card-column2">V<span>/</span>S</div>
         <div class="card-column3">
           <div class="card-column3-row1"><img src="../../../../assets/icon/indian-flag.svg" /></div>
-          <div class="card-column3-row2">{{match.inning[1].battingTeam}}</div>
-          <div class="card-column3-row3">{{match.inning[1].totalRunScored}}-{{match.inning[1].totalWicketsFallen}}</div>
-          <div class="card-column3-row4">({{match.inning[1].over}})</div>
+          <div class="card-column3-row2">{{match.matchCard.inning2.battingTeam}}</div>
+          <div class="card-column3-row3">{{match.matchCard.inning2.score}}-{{match.matchCard.inning2.wicket}}</div>
+          <div class="card-column3-row4">({{match.matchCard.inning2.over}})</div>
         </div>
       </div>
       <div class="card-row2">TEAM B won by 5 wickets</div>
     </div>
     <div class="inning-title-container">
-      <div [ngClass]="showCard === 1 ? 'active-tab' : ''" (click)="transformElement(1)">TEAM A</div>
-      <div [ngClass]="showCard === 2 ? 'active-tab' : ''" (click)="transformElement(2)">TEAM B</div>
-      <!-- <div [ngClass]="showCard === 3 ? 'active-tab' : ''" (click)="transformElement(3)">TEAM A</div>
-      <div [ngClass]="showCard === 4 ? 'active-tab' : ''" (click)="transformElement(4)">TEAM B</div> -->
+      <div [ngClass]="showCard === 1 ? 'active-tab' : ''" (click)="transformElement(1)">SANGHARSH A</div>
+      <div [ngClass]="showCard === 2 ? 'active-tab' : ''" (click)="transformElement(2)">SANGHARSH B</div>
     </div>
     <div class="match-summary-detailed">
       <!-- Inning 1 -->

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BackButtonComponent } from './back-button/back-button.component';
+import { DropdownComponent } from './dropdown/dropdown.component';
 
 
 
@@ -9,7 +10,8 @@ import { BackButtonComponent } from './back-button/back-button.component';
   imports: [
     CommonModule,
     BackButtonComponent,
+    DropdownComponent
   ],
-  exports: [BackButtonComponent]
+  exports: [BackButtonComponent,DropdownComponent]
 })
 export class SharedModule { }

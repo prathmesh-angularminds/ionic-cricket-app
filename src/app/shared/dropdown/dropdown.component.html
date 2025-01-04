@@ -1,0 +1,12 @@
+<div class="dropdown">
+  <button (click)="dropDownOpened()">
+    <img src="../../../assets/icon/more-vertical.svg"/>
+  </button>
+  <ng-container *ngIf="isDropdownOpen">
+    <div class="dropdownContainer">
+      <ng-container *ngFor="let content of dropdownList">
+        <div [routerLink]="content.url" [queryParams]="content.queryParam" class="dropdown-card">{{content?.label}}</div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

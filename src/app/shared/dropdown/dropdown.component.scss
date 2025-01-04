@@ -1,0 +1,36 @@
+@import '../../../assets/scss/variables';
+
+.dropdown {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    // position: absolute;
+    z-index: 2;
+    button {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        position: absolute;
+        background: $white;
+    }
+    .dropdownContainer {
+        width: 200px;
+        background: $white;
+        position: absolute;
+        top: 100%;
+        right: 0%;
+        border-radius: 10px;
+        border: 0.5px solid rgba(214, 211, 211, 0.5); 
+        .dropdown-card {
+            height: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 3% 2%;
+            box-sizing: border-box;
+            color: $text-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Data } from 'src/app/models/data';
 
 @Component({
   selector: 'app-match-list',
@@ -8,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 export class MatchListComponent  implements OnInit {
 
   pageTitle: string = "Matches";
-  newMatchLabel: string = "Start New Match"
-  constructor() { }
+  newMatchLabel: string = "Start New Match";
+  constructor(public data: Data) { }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.data.isMatchPlayed = false;
+  }
 }

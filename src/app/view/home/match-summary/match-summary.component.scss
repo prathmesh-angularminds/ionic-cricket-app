@@ -19,6 +19,11 @@
             position: absolute;
             left: 16px;
         }
+        app-dropdown {
+            position: absolute;
+            right: 16px;
+            z-index: 3;
+        }
         &-container {
             width: 100%;
             text-align: center;

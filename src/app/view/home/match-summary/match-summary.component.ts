@@ -34,10 +34,6 @@ export class MatchSummaryComponent  implements OnInit {
     this.data.matchId.subscribe((id: string) => {
       this.getMatchData(id);
     })
-    // this.activatedRoute.queryParams.subscribe({
-    //   next: (param: any) => {
-    //   }
-    // })
   }
 
   transformElement(num: number) {

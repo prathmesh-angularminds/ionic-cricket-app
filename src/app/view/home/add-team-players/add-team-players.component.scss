@@ -39,9 +39,15 @@
         .add-team-players-all-players-list, .add-team-players-selected-player-list {
             width: 100%;
             .title {
+                display: flex;
+                justify-content: space-between;
                 font-size: 14px;
                 font-weight: 600;
                 margin-bottom: 20px;
+                .disableClearButton {
+                    pointer-events: none;
+                    opacity: 0.5;
+                }
             }
             .selected-player-list {
                 max-width: 100%;
@@ -51,9 +57,10 @@
                 flex-direction: row;
                 overflow-x: scroll;
                 margin-bottom: 5%;
+                box-sizing: border-box;
                 .player-card {
                     min-width: 130px;
-                    height: 100%;
+                    height: 99%;
                     border-radius: 8px;
                     border: 2px solid $white;
                     background: $white-card;
@@ -106,6 +113,9 @@
                     }
                 }
             }
+            .selected-player-list::-webkit-scrollbar {
+                display: none;
+            }
             .selected-player-list-empty-state {
                 width: 100%;
                 height: 170px;
@@ -126,12 +136,14 @@
                     border-radius: 5px;
                     font-size: 12px;
                     margin-bottom: 3%;
+                    padding: 0 1.5%;
                     box-sizing: border-box;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     font-size: 14px;
                     font-weight: 600;
+                    text-align: center;
                 }
                 .no-player-left {
                     width: 100%;
@@ -139,9 +151,6 @@
                     box-sizing: border-box;
                     text-align: center;
                 }
-            }
-            .selected-player-list::-webkit-scrollbar {
-                display: none;
             }
         }
         .add-team-players-selected-player-list {

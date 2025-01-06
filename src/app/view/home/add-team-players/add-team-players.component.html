@@ -7,7 +7,10 @@
   </div>
   <div class="add-team-players-table">
     <div class="add-team-players-selected-player-list">
-      <div class="title">Playing XI</div>
+      <div class="title">
+        <div>Playing XI - [{{this.selectedTeamPlayerList.length}}]</div>
+        <div [ngClass]="this.selectedTeamPlayerList.length === 0 ? 'disableClearButton' : ''" (click)="clearSelectedPlayerList()">Clear All</div>
+      </div>
       <div class="selected-player-list" *ngIf="selectedTeamPlayerList.length; else emptyState">
         <ng-container *ngFor="let player of selectedTeamPlayerList; let i = index">
           <div class="player-card" (click)="removePlayerFromTeam(player,i)">
@@ -25,9 +28,6 @@
             </div>
             <div class="captain" *ngIf="i === 0">C</div>
           </div>
-          <!-- <div class="player-card" [ngClass]=" ? 'add-bookmark-icon' : ''" (click)="removePlayerFromTeam(player,i)">
-            <span>{{player.name}}</span>
-          </div> -->
         </ng-container>
       </div>
       <ng-template #emptyState>

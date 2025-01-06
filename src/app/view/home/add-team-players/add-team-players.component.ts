@@ -59,6 +59,19 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
     }
   }
 
+  clearSelectedPlayerList() {
+    this.selectedTeamPlayerList.forEach((player: any) => {
+      this.data.teamPlayerList.push(player);
+    })
+    this.playerList = this.data.teamPlayerList;
+    this.selectedTeamPlayerList = [];
+    if(this.teamName === 'SANGHARSH A') {
+      this.data.teamAPlayersList = this.selectedTeamPlayerList;
+    } else {
+      this.data.teamBPlayersList = this.selectedTeamPlayerList;
+    }
+  }
+
   ngOnDestroy(): void {
   }
 }

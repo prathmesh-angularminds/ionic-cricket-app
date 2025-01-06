@@ -10,8 +10,7 @@ import { FirebaseService } from 'src/app/service/firebase.service';
 })
 export class MatchSummaryComponent  implements OnInit {
 
-  screenWidth: number = 0;
-  showCard: number = 1;
+  showCard: number = 0;
   match: any;
   dropDownList: any = [
     {
@@ -32,15 +31,13 @@ export class MatchSummaryComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.data.isMatchPlayed) {
-      this.dropDownList.shift();
-    }
-    this.screenWidth = window.innerWidth;
-    this.activatedRoute.queryParams.subscribe({
-      next: (param: any) => {
-        this.getMatchData('jgTt9Gtd7d5Tn1il3Yml');
-      }
+    this.data.matchId.subscribe((id: string) => {
+      this.getMatchData(id);
     })
+    // this.activatedRoute.queryParams.subscribe({
+    //   next: (param: any) => {
+    //   }
+    // })
   }
 
   transformElement(num: number) {

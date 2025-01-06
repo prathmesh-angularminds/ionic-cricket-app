@@ -19,20 +19,19 @@
         <div class="card-column2">V<span>/</span>S</div>
         <div class="card-column3">
           <div class="card-column3-row1"><img src="../../../../assets/icon/indian-flag.svg" /></div>
-          <div class="card-column3-row2">{{match.matchCard.inning2.battingTeam}}</div>
-          <div class="card-column3-row3">{{match.matchCard.inning2.score}}-{{match.matchCard.inning2.wicket}}</div>
-          <div class="card-column3-row4">({{match.matchCard.inning2.over}})</div>
+          <div class="card-column1-row2">{{match.inning[1].battingTeam}}</div>
+          <div class="card-column1-row3">{{match.inning[1].totalRunScored}}-{{match.inning[1].totalWicketsFallen}}</div>
+          <div class="card-column1-row4">({{match.inning[1].over}})</div>
         </div>
       </div>
-      <div class="card-row2">TEAM B won by 5 wickets</div>
+      <div class="card-row2">{{match.afterMatchMessage}}</div>
     </div>
     <div class="inning-title-container">
-      <div [ngClass]="showCard === 1 ? 'active-tab' : ''" (click)="transformElement(1)">SANGHARSH A</div>
-      <div [ngClass]="showCard === 2 ? 'active-tab' : ''" (click)="transformElement(2)">SANGHARSH B</div>
+      <div [ngClass]="showCard === 0 ? 'active-tab' : ''" (click)="transformElement(0)">SANGHARSH A</div>
+      <div [ngClass]="showCard === 1 ? 'active-tab' : ''" (click)="transformElement(1)">SANGHARSH B</div>
     </div>
     <div class="match-summary-detailed">
-      <!-- Inning 1 -->
-      <div class="match-summary-first-inning" *ngIf="showCard === 1">
+      <div class="match-summary-inning">
         <div class="match-summary-batting-table">
           <table>
             <thead>
@@ -45,7 +44,7 @@
                 <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">S.R</th>
               </tr>
             </thead>
-            <tbody *ngFor="let batsmanDetails of match.inning[0].batsmanList">
+            <tbody *ngFor="let batsmanDetails of match.inning[showCard].batsmanList">
               <tr class="batsman-details">
                 <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{returnPlayerHalfFirstName(batsmanDetails.firstName,batsmanDetails.lastName)}}</td>
                 <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.run}}</td>
@@ -54,33 +53,34 @@
                 <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.four}}</td>
                 <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.strikeRate}}</td>
               </tr>
-              <tr class="wicket-details" *ngIf="batsmanDetails.isPlayerOut">
+              <tr class="wicket-details" *ngIf="batsmanDetails?.wicketDetails">
                 <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'HW' || batsmanDetails.wicketDetails.wicketType === 'W'">
                   <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.bowlerFirstName,batsmanDetails.wicketDetails.bowlerFirstName)}}]</td>
                 </ng-container>
                 <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'CW'">
                   <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[c - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderFirstName)}}, B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.firstName,batsmanDetails.wicketDetails.lastName)}}]</td>
                 </ng-container>
+                <!-- {{batsmanDetails.wicketDetails | json}} -->
                 <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'RN'">
-                  <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[c - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderFirstName)}}, B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.bowlerFirstName,batsmanDetails.wicketDetails.bowlerFirstName)}}]</td>
+                  <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[RO - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderFirstName)}}]</td>
                 </ng-container>
               </tr>
             </tbody>
             <tbody>
               <tr class="extras" style="border-bottom: 1px solid white;">
                 <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box; font-size: 12px">Extras</td>
-                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[0].extraRuns.wide + this.match.inning[0].extraRuns.noBall}} (w - {{this.match.inning[0].extraRuns.wide}}, NB - {{this.match.inning[0].extraRuns.noBall}})</td>
+                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[showCard].extraRuns.wide + this.match.inning[showCard].extraRuns.noBall}} (w - {{this.match.inning[showCard].extraRuns.wide}}, NB - {{this.match.inning[showCard].extraRuns.noBall}})</td>
               </tr>
               <tr class="total-runs" style="border-bottom: 1px solid white;">
                 <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box; font-size: 12px">Total Runs</td>
-                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[0].totalRunScored}} ({{this.match.inning[0].totalWicketsFallen}} wkts, {{this.match.inning[0].over}} ov)</td>
+                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[showCard].totalRunScored}} ({{this.match.inning[showCard].totalWicketsFallen}} wkts, {{this.match.inning[showCard].over}} ov)</td>
               </tr>
               <tr>
                 <td style="text-align: left; padding-top: 3%; padding-left: 3%; padding-bottom: 5%; box-sizing: border-box; font-size: 12px" colspan="6">
                   <div>
                     Yet to bat <br />
                     <span style="font-size: 10px; margin-top: 5px">
-                      <span *ngFor="let leftBatsman of this.match.inning[0].nonBattedPlayerList">{{leftBatsman}},&nbsp;</span>
+                      <span *ngFor="let leftBatsman of this.match.inning[showCard].nonBattedPlayerList">{{leftBatsman}},&nbsp;</span>
                     </span>
                   </div>
                 </td>
@@ -92,7 +92,7 @@
         <div class="match-summary-bowling-table">
           <table>
             <thead>
-              <tr style="border-bottom: 1px solid white">
+              <tr>
                 <th style="text-align: left; padding-left: 3%; width: 50%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Bowling</th>
                 <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Ov</th>
                 <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Run</th>
@@ -101,91 +101,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="batsman-details" style="border-bottom: 1px solid white" *ngFor="let bowlerDetails of match.inning[0].bowlerList">
-                <td style="text-align: left; padding-left: 3%; width: 50%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{returnPlayerHalfFirstName(bowlerDetails.firstName,bowlerDetails.lastName)}}</td>
-                <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.over}}</td>
-                <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.run}}</td>
-                <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.wicket}}</td>
-                <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.economy}}</td>
-              </tr>
-              <tr>
-                <td style="padding-bottom: 3%;"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- Inning 2 -->
-      <div class="match-summary-second-inning" *ngIf="showCard === 2">
-        <div class="match-summary-batting-table">
-          <table>
-            <thead>
-              <tr style="border-bottom: 1px solid white">
-                <th style="text-align: left; padding-left: 3%; width: 40%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Batting</th>
-                <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">R</th>
-                <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">B</th>
-                <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">6s</th>
-                <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">4s</th>
-                <th style="width: 12%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">S.R</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let batsmanDetails of match.inning[1].batsmanList">
-              <tr class="batsman-details">
-                <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{returnPlayerHalfFirstName(batsmanDetails.firstName,batsmanDetails.lastName)}}</td>
-                <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.run}}</td>
-                <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.ball}}</td>
-                <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.six}}</td>
-                <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.four}}</td>
-                <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.strikeRate}}</td>
-              </tr>
-              <tr class="wicket-details" *ngIf="batsmanDetails.isPlayerOut">
-                <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'HW' || batsmanDetails.wicketDetails.wicketType === 'W'">
-                  <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.bowlerFirstName,batsmanDetails.wicketDetails.bowlerFirstName)}}]</td>
-                </ng-container>
-                <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'CW'">
-                  <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[c - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderFirstName)}}, B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.firstName,batsmanDetails.wicketDetails.lastName)}}]</td>
-                </ng-container>
-                <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'RN'">
-                  <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[c - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderFirstName)}}, B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.bowlerFirstName,batsmanDetails.wicketDetails.bowlerFirstName)}}]</td>
-                </ng-container>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr class="extras" style="border-bottom: 1px solid white;">
-                <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box; font-size: 12px">Extras</td>
-                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[1].extraRuns.wide + this.match.inning[1].extraRuns.noBall}}  (w - {{this.match.inning[1].extraRuns.wide}}, NB - {{this.match.inning[1].extraRuns.noBall}})</td>
-              </tr>
-              <tr class="total-runs" style="border-bottom: 1px solid white;">
-                <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box; font-size: 12px">Total Runs</td>
-                <td style="text-align: left; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box; font-size: 12px" colspan="5">{{this.match.inning[1].totalRunScored}} ({{this.match.inning[1].totalWicketsFallen}} wkts, {{this.match.inning[1].over}} ov)</td>
-              </tr>
-              <tr>
-                <td style="text-align: left; padding-top: 3%; padding-left: 3%; padding-bottom: 5%; box-sizing: border-box; font-size: 12px" colspan="6">
-                  <div>
-                    Yet to bat <br />
-                    <span style="font-size: 10px; margin-top: 5px">
-                      <span *ngFor="let leftBatsman of this.match.inning[1].nonBattedPlayerList">{{leftBatsman}},&nbsp;</span>
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="match-summary-bowling-table">
-          <table>
-            <thead>
-              <tr style="border-bottom: 1px solid white">
-                <th style="text-align: left; padding-left: 3%; width: 50%; padding-top: 5%; padding-bottom: 2%; box-sizing: border-box;">Bowling</th>
-                <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Ov</th>
-                <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Run</th>
-                <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Wkts</th>
-                <th style="width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box">Econ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="batsman-details" style="border-bottom: 1px solid white" *ngFor="let bowlerDetails of match.inning[1].bowlerList">
+              <tr class="batsman-details" style="border-top: 1px solid white" *ngFor="let bowlerDetails of match.inning[showCard].bowlerList">
                 <td style="text-align: left; padding-left: 3%; width: 50%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{returnPlayerHalfFirstName(bowlerDetails.firstName,bowlerDetails.lastName)}}</td>
                 <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.over}}</td>
                 <td style="text-align: center; width: 12.5%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{bowlerDetails.run}}</td>

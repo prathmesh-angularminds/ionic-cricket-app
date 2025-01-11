@@ -23,10 +23,10 @@ export class PlayerListComponent  implements OnInit {
     public firebaseService: FirebaseService,
     public data: Data,
     private storage: AppStorageService,
-    private commonService: CommonService
   ) { }
 
   ngOnInit() {
+    // this.firebaseService.updatePlayer({});
     this.storage.get('playerList').subscribe({
       next: (playerList: any) => {
         if(!this.data.isMatchPlayed && playerList) {

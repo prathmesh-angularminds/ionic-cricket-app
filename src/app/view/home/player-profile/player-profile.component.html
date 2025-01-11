@@ -18,7 +18,7 @@
             <span class="player-first-name">{{player.firstName}}</span>
             <span class="player-last-name">{{player.lastName}}</span>
           </div>
-          <div class="player-category">RIGHT HANDED BATSMAN</div>
+          <div class="player-category">{{player.playerType === 'Bowler' ? player.bowlingHand + ' BOWLER' : player.battingHand + ' BATSMAN' }}</div>
           <ng-container *ngIf="player.playerType === 'Bowler';else batsmanTitleCard">
             <div class="player-numerical-statistics">
               <div class="left-column">
@@ -41,8 +41,8 @@
                   <span class="data">{{player.bowlingDetails.economy}}</span>
                 </div>
                 <div class="data-block">
-                  <span class="title">Most Wkts</span>
-                  <span class="data">{{player.bowlingDetails.mostWicket}}</span>
+                  <span class="title">Average</span>
+                  <span class="data">{{player.bowlingDetails.average}}%</span>
                 </div>
                 <div class="data-block">
                   <span class="title">runs</span>
@@ -73,8 +73,8 @@
                   <span class="data">{{player.battingDetails.strikeRate}}</span>
                 </div>
                 <div class="data-block">
-                  <span class="title">Best</span>
-                  <span class="data">{{player.battingDetails.bestScore}}</span>
+                  <span class="title">Average</span>
+                  <span class="data">{{player.battingDetails.average}}%</span>
                 </div>
                 <div class="data-block">
                   <span class="title">4's</span>
@@ -95,7 +95,7 @@
         <div class="player-profile-info-other-title">BOWLING & FIELDING STATISTICS</div>
       </ng-template>
       <div class="player-profile-info-card2">
-        <div class="player-profile-info-card2-title">RIGHT ARM BOWER</div>
+        <div class="player-profile-info-card2-title">{{player.playerType === 'Bowler' ? player.battingHand + ' BATSMAN' : player.bowlingHand  + ' BOWLER'}}</div>
         <ng-container *ngIf="player.playerType === 'Bowler';else batsmanSecondaryCard">
           <div class="player-profile-info-card2-statistics">
             <div class="bowling-stats column-1">
@@ -104,8 +104,8 @@
                 <span class="data">{{player.match}}</span>
               </div>
               <div class="data-block">
-                <span class="title">Best Score</span>
-                <span class="data">{{player.battingDetails.bestScore}}</span>
+                <span class="title">Average</span>
+                <span class="data">{{player.battingDetails.average}}%</span>
               </div>
             </div>
             <div class="bowling-stats column-2">
@@ -140,8 +140,8 @@
                 <span class="data">{{player.bowlingDetails.over}}</span>
               </div>
               <div class="data-block">
-                <span class="title">Most WKts</span>
-                <span class="data">{{player.bowlingDetails.mostWicket}}</span>
+                <span class="title">Most Wkts</span>
+                <span class="data">0</span>
               </div>
             </div>
             <div class="bowling-stats column-2">
@@ -162,8 +162,8 @@
             </div>
             <div class="bowling-stats column-4">
               <div class="data-block">
-                <span class="title">No Bowls</span>
-                <span class="data">{{player.bowlingDetails.noBall}}</span>
+                <span class="title">Average</span>
+                <span class="data">{{player.bowlingDetails?.average}}%</span>
               </div>
             </div>
           </div>

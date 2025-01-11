@@ -6,11 +6,13 @@
     padding: 8% 4%;
     box-sizing: border-box;
     display: flex;
+    align-items: center;
     flex-direction: column;
     background: url('../../../../assets/icon/player-profile-bg.png'), url('../../../../assets/icon/player-profile-bg.png');
     background-repeat: no-repeat;
     background-position: top left, bottom right;
     overflow-y: scroll;
+    position: relative;
     &-header {
         width: 100%;
         display: flex;
@@ -162,8 +164,83 @@
                                 font-size: 8px;
                                 font-weight: 500;
                             }
+                            .row-border {
+                                border-bottom: 1px solid white;
+                            }
                         }
                     }
+                }
+            }
+        }
+    }
+    .delete-match-modal-page {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(2px);
+        z-index: 3;
+        padding: 0 4%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .delete-match-modal {
+            width: 100%;
+            background: $white;
+            padding: 6%;
+            box-sizing: border-box;
+            border-radius: 10px;
+            .modal-header {
+                width: 100%;
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5%;
+                box-sizing: border-box;
+                .title {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+                .cross-button {
+                }
+            }
+            .modal-body {
+                width: 100%;
+                overflow-y: scroll;
+                .title {
+                    font-size: 16px;
+                    font-weight: 700;
+                    margin: 5% 0%;
+                }
+                .batsman-list {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 14px;
+                }
+            }
+            .modal-footer {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 6%;
+                box-sizing: border-box;
+                .cancel-button, .save-button {
+                    width: 40%;
+                    height: 40px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: $white;
+                    background: $text-color;
+                    border: 1px solid $text-color;
+                    border-radius: 5px;
+                }
+                .cancel-button {
+                    color: $text-color;
+                    background: $white;
+                    border: 1px solid $text-color;
                 }
             }
         }

@@ -4,7 +4,7 @@
     <app-dropdown [dropdownList]="dropDownList"></app-dropdown>
     <div class="match-summary-header-container" *ngIf="match">
       <div class="match-summary-header-container-title">Match {{match.matchNumberOfTheDay}}</div>
-      <!-- <div class="match-summary-header-container-sub-title">{{match.date | date: 'longDate'}}</div> -->
+      <div class="match-summary-header-container-sub-title">{{match.date | date: 'longDate'}}</div>
     </div>
   </div>
   <div class="match-summary-info" *ngIf="match">
@@ -45,7 +45,7 @@
               </tr>
             </thead>
             <tbody *ngFor="let batsmanDetails of match.inning[showCard].batsmanList">
-              <tr class="batsman-details">
+              <tr class="batsman-details" [ngClass]="!batsmanDetails?.wicketDetails ? 'row-border' : ''">
                 <td style="text-align: left; padding-left: 3%; width: 40%; padding-top: 3%; padding-bottom: 2%; box-sizing: border-box;">{{returnPlayerHalfFirstName(batsmanDetails.firstName,batsmanDetails.lastName)}}</td>
                 <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.run}}</td>
                 <td style="text-align: center; width: 12%; padding-top: 3%; padding-bottom: 1%; box-sizing: border-box;">{{batsmanDetails.ball}}</td>
@@ -60,7 +60,6 @@
                 <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'CW'">
                   <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[c - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderLastName)}}, B - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.bowlerFirstName,batsmanDetails.wicketDetails.bowlerLastName)}}]</td>
                 </ng-container>
-                <!-- {{batsmanDetails.wicketDetails | json}} -->
                 <ng-container *ngIf="batsmanDetails.wicketDetails.wicketType === 'RN'">
                   <td style="border-bottom: 1px solid white; text-align: left; padding-left: 3%; padding-bottom: 2%; box-sizing: border-box;" colspan="6">[RO - {{returnPlayerHalfFirstName(batsmanDetails.wicketDetails.fielderFirstName,batsmanDetails.wicketDetails.fielderLastName)}}]</td>
                 </ng-container>
@@ -114,6 +113,26 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="delete-match-modal-page" *ngIf="showDeleteMatchModal">
+    <div class="delete-match-modal">
+      <div class="modal-header">
+        <div class="title">Delete match</div>
+        <div class="close-button" [routerLink]="'/home/match-summary'" [queryParams]="{showDeleteMatchModal: null,id: matchId, matchCardId}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          Are you sure to delete this match ?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/match-summary'" [queryParams]="{showDeleteMatchModal: null, id: matchId, matchCardId}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/match-summary'" [queryParams]="{showDeleteMatchModal: null, id: matchId, matchCardId}" (click)="deleteMatch()">Yes</button>
       </div>
     </div>
   </div>

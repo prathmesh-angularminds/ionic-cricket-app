@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class Data {
     public teamAPlayersList: any = [];
     public teamBPlayersList: any = [];
     public overs: any = 0;
-    public tossWinningTeam: string = "TEAM A";
+    public tossWinningTeam: string = "";
     public scoreKeyboard: any = [
         [
             {
@@ -49,7 +50,7 @@ export class Data {
                 class: "",
                 isLegalDelivery: true,
                 isWicket: false,
-                shouldChangeStrike: true
+                shouldChangeStrike: false
             },
         ], [
             {
@@ -86,7 +87,7 @@ export class Data {
                 class: "",
                 isLegalDelivery: true,
                 isWicket: false,
-                shouldChangeStrike: false
+                shouldChangeStrike: true
             },
         ], [
             {
@@ -114,7 +115,7 @@ export class Data {
                 class: "",
                 isLegalDelivery: true,
                 isWicket: false,
-                shouldChangeStrike: true
+                shouldChangeStrike: false
             },
             {
                 label: "4 + RO",
@@ -123,7 +124,7 @@ export class Data {
                 class: "",
                 isLegalDelivery: true,
                 isWicket: false,
-                shouldChangeStrike: true
+                shouldChangeStrike: false
             },
         ], [
             {
@@ -151,7 +152,7 @@ export class Data {
                 class: "",
                 isLegalDelivery: true,
                 isWicket: false,
-                shouldChangeStrike: false
+                shouldChangeStrike: true
             },
             {
                 label: "0",

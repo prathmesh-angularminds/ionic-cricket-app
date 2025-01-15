@@ -2,6 +2,7 @@
   <div class="player-list-header">
     {{pageTitle}}
   </div>
+  <app-dropdown [dropdownList]="dropDownList"></app-dropdown>
   <div class="player-list-search-container">
     <input placeholder="Search player" [(ngModel)]="searchText" />
     <div class="player-list-search-container-button">

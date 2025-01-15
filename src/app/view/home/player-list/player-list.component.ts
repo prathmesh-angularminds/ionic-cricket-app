@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Data } from 'src/app/models/data';
 import { Player } from 'src/app/models/player.interface';
 import { AppStorageService } from 'src/app/service/app-storage.service';
-import { CommonService } from 'src/app/service/common.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
 
 @Component({
@@ -17,6 +16,13 @@ export class PlayerListComponent  implements OnInit {
   addNewPlayerButtonLabel: string = "Add New Player";
   playerList: any = [];
   searchText: string = "";
+  dropDownList: any = [
+    {
+      label: "Add new player",
+      url: "/home/add-new-player",
+      queryParam: {}
+    },
+  ]
 
   constructor(
     private router: Router,
@@ -26,7 +32,6 @@ export class PlayerListComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.firebaseService.updatePlayer({});
     this.storage.get('playerList').subscribe({
       next: (playerList: any) => {
         if(!this.data.isMatchPlayed && playerList) {

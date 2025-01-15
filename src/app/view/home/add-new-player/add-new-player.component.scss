@@ -1,0 +1,121 @@
+@import '../../../../assets/scss/variables';
+
+.add-player {
+    width: 100%;
+    height: 100%;
+    padding: 8% 4%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background: url('../../../../assets/icon/player-profile-bg.png'), url('../../../../assets/icon/player-profile-bg.png');
+    background-repeat: no-repeat;
+    background-position: top left, bottom right;
+    &-header {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        app-back-button {
+            position: absolute;
+            left: 16px;
+        }
+        &-container {
+            width: 100%;
+            text-align: center;
+            &-title {
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+    }
+    &-info {
+        width: 100%;
+        margin-top: 10%;
+        box-sizing: border-box;
+        .player-form {
+            color: $text-color;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            .player-field-body {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                label {
+                    margin-left: 6%;
+                    box-sizing: border-box;
+                    margin-bottom: 2%;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+                input {
+                    background: $white;
+                    outline: none;
+                    border: none;
+                    height: 50px;
+                    border-radius: 5px;
+                    padding-left: 5%;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                margin-bottom: 5%;
+                box-sizing: border-box;
+                .validation-message {
+                    font-size: 10px;
+                    color: $wicket;
+                    box-sizing: border-box;
+                    margin-top: 2%;
+                    font-weight: 600;
+                }
+            }
+            .player-jersey-type {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                .player-field-body {
+                    width: 45%;
+                    label {
+                        margin-left: 12%;
+                        margin-bottom: 6%;
+                        box-sizing: border-box;
+                        font-size: 14px;
+                        font-weight: 500;
+                    }
+                    input, select {
+                        background: $white;
+                        outline: none;
+                        border: none;
+                        height: 50px;
+                        border-radius: 5px;
+                        text-align: center;
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+                    .validation-message {
+                        font-size: 10px;
+                        color: $wicket;
+                        box-sizing: border-box;
+                        margin-top: 2%;
+                        font-weight: 600;
+                    }
+                }
+            }
+            .save-button {
+                position: relative;
+                width: 100%;
+                height: 50px;
+                margin-top: 5%;
+                box-sizing: border-box;
+                button {
+                    height: 50px;
+                    width: 100%;
+                    background: $white;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    box-sizing: border-box;
+                    color: $text-color;
+                }
+            }
+        }
+    }
+}

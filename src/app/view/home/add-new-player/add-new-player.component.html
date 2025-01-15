@@ -1,0 +1,41 @@
+<div class="add-player">
+  <div class="add-player-header">
+    <app-back-button [url]="'/home/player-list'"></app-back-button>
+    <div class="add-player-header-container">
+      <div class="add-player-header-container-title">{{'Add new player'}}</div>
+    </div>
+  </div>
+  <div class="add-player-info">
+    <form class="player-form" [formGroup]="playerForm">
+      <div class="player-field-body">
+        <label>First Name</label>
+        <input type="text" [formControl]="firstName" placeholder="First name"/>
+        <div class="validation-message" *ngIf="firstName.dirty && firstName.invalid">Please provide player first name</div>
+      </div>
+      <div class="player-field-body">
+        <label>Last Name</label>
+        <input type="text" [formControl]="lastName" placeholder="Last name"/>
+        <div class="validation-message" *ngIf="lastName.dirty && lastName.invalid">Please provide player last name</div>
+      </div>
+      <div class="player-jersey-type">
+        <div class="player-field-body">
+          <label>Player type</label>
+          <select [formControl]="playerType" placeHolder="Player type">
+            <option value="Batsman">Batsman</option>
+            <option value="Bowler">Bowler</option>
+            <option value="All rounder">All rounder</option>
+          </select>
+        <div class="validation-message" *ngIf="playerType.dirty && playerType.invalid">Please select player type</div>
+        </div>
+        <div class="player-field-body">
+          <label>Jersey Number</label>
+          <input type="number" [formControl]="jerseyNumber" placeholder="Jersey No"/>
+          <div class="validation-message" *ngIf="jerseyNumber.dirty && jerseyNumber.invalid">Please provide jersey number</div>
+        </div>
+      </div>
+      <div class="save-button" (click)="onSavePlayerData()" [routerLink]="">
+        <button>Save</button>
+      </div>
+    </form>
+  </div>
+</div>

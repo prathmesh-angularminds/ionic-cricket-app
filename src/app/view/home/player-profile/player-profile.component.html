@@ -85,7 +85,7 @@
           </ng-template>
         </div>
         <div class="player-profile-info-card1-player-image">
-          <img src="./../../../../assets/icon/virat-image.png"/>
+          <img [src]="player?.profileImage ? player?.profileImage :  './../../../../assets/icon/virat-image'"/>
         </div>
       </div>
       <ng-container *ngIf="player.playerType === 'Bowler';else batsmanBowlingTitle">

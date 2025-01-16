@@ -15,7 +15,7 @@
         <ng-container *ngFor="let player of selectedTeamPlayerList; let i = index">
           <div class="player-card" (click)="removePlayerFromTeam(player,i)">
             <div class="player-image">
-              <img src="../../../../assets/icon/virat-image.png"/>
+              <img [src]="player?.profileImage ? player?.profileImage :  '../../../../assets/icon/virat-image.png'"/>
             </div>
             <div class="selected-player-card-inner">
               <div class="player-name">

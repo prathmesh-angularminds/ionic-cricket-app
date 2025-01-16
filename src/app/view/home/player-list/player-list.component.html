@@ -15,7 +15,7 @@
       <ng-container *ngFor="let player of playerList">
         <div class="player-card" [routerLink]="'/home/player-profile'" [queryParams]="{id: player.id}">
           <div class="player-image">
-            <img src="../../../../assets/icon/virat-image.png"/>
+            <img [src]="player?.profileImage ? player?.profileImage :  '../../../../assets/icon/virat-image.png'"/>
           </div>
           <div class="player-statistics">
             <div class="player-name">

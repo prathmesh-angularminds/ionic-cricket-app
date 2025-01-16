@@ -1,6 +1,7 @@
 <div class="player-profile" *ngIf="player">
   <div class="player-profile-header">
     <app-back-button [url]="url"></app-back-button>
+    <app-dropdown [dropdownList]="dropDownList"></app-dropdown>
     <div class="player-profile-header-container">
       <div class="player-profile-header-container-title">{{pageTitle}}</div>
       <div class="player-profile-header-container-sub-title">[{{player.playerType}}]</div>
@@ -18,7 +19,7 @@
             <span class="player-first-name">{{player.firstName}}</span>
             <span class="player-last-name">{{player.lastName}}</span>
           </div>
-          <div class="player-category">{{player.playerType === 'Bowler' ? player.bowlingHand + ' BOWLER' : player.battingHand + ' BATSMAN' }}</div>
+          <!-- <div class="player-category">{{player.playerType === 'Bowler' ? player.bowlingHand + ' BOWLER' : player.battingHand + ' BATSMAN' }}</div> -->
           <ng-container *ngIf="player.playerType === 'Bowler';else batsmanTitleCard">
             <div class="player-numerical-statistics">
               <div class="left-column">
@@ -95,7 +96,7 @@
         <div class="player-profile-info-other-title">BOWLING & FIELDING STATISTICS</div>
       </ng-template>
       <div class="player-profile-info-card2">
-        <div class="player-profile-info-card2-title">{{player.playerType === 'Bowler' ? player.battingHand + ' BATSMAN' : player.bowlingHand  + ' BOWLER'}}</div>
+        <!-- <div class="player-profile-info-card2-title">{{player.playerType === 'Bowler' ? player.battingHand + ' BATSMAN' : player.bowlingHand  + ' BOWLER'}}</div> -->
         <ng-container *ngIf="player.playerType === 'Bowler';else batsmanSecondaryCard">
           <div class="player-profile-info-card2-statistics">
             <div class="bowling-stats column-1">
@@ -199,5 +200,45 @@
         </div>
       </div>
     </ng-container>
+  </div>
+
+  <div class="delete-player-modal-page" *ngIf="showDeletePlayerModal">
+    <div class="delete-player-modal">
+      <div class="modal-header">
+        <div class="title">Delete player</div>
+        <div class="close-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showDeletePlayerModal: null, shouldCallGetApi: false}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          Are you sure to delete this player ?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showDeletePlayerModal: null, shouldCallGetApi: false}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showDeletePlayerModal: null, shouldCallGetApi: false}" (click)="deletePlayer()">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="delete-player-modal-page" *ngIf="showResetPlayerModal">
+    <div class="delete-player-modal">
+      <div class="modal-header">
+        <div class="title">Reset player</div>
+        <div class="close-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showResetPlayerModal: null, shouldCallGetApi: false}">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="batsman-list">
+          Are you sure to reset this player ?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showResetPlayerModal: null, shouldCallGetApi: false}">Cancel</button>
+        <button class="save-button" [routerLink]="'/home/player-profile'" [queryParams]="{id: this.playerId,showResetPlayerModal: null, shouldCallGetApi: false}" (click)="resetPlayer()">Yes</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -22,5 +22,4 @@ export class DropdownComponent  implements OnInit {
   dropDownOpened() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
 }

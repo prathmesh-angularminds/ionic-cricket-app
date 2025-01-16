@@ -5,7 +5,7 @@
   <ng-container *ngIf="isDropdownOpen">
     <div class="dropdownContainer">
       <ng-container *ngFor="let content of dropdownList">
-        <div [routerLink]="content.url" [queryParams]="content.queryParam" class="dropdown-card">{{content?.label}}</div>
+        <div [routerLink]="content.url" [queryParams]="content.queryParam" class="dropdown-card" (click)="dropDownOpened()">{{content?.label}}</div>
       </ng-container>
     </div>
   </ng-container>

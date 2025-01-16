@@ -1,8 +1,8 @@
-<div class="add-player">
+<div class="add-player" *ngIf="playerForm">
   <div class="add-player-header">
     <app-back-button [url]="'/home/player-list'"></app-back-button>
     <div class="add-player-header-container">
-      <div class="add-player-header-container-title">{{'Add new player'}}</div>
+      <div class="add-player-header-container-title">{{router.url === '/edit-player' ? 'Add new player' : 'Edit player'}}</div>
     </div>
   </div>
   <div class="add-player-info">
@@ -33,7 +33,7 @@
           <div class="validation-message" *ngIf="jerseyNumber.dirty && jerseyNumber.invalid">Please provide jersey number</div>
         </div>
       </div>
-      <div class="save-button" (click)="onSavePlayerData()" [routerLink]="">
+      <div class="save-button" (click)="router.url.includes('/edit-player') ? updatePlayerData() : onSavePlayerData()">
         <button>Save</button>
       </div>
     </form>

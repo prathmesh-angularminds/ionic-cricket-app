@@ -18,6 +18,7 @@ export class AddNewPlayerComponent  implements OnInit {
     jerseyNumber: "",
     playerType: "Batsman",
   }
+  playerId: string = "";
 
   constructor(
     public fb: FormBuilder,
@@ -29,6 +30,9 @@ export class AddNewPlayerComponent  implements OnInit {
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((param: any) => {
       if(param.id) {
+        this.playerId = param.id;
+        this.getPlayerData(param.id);
+        console.log(this.router.url);
       } else {
         this.initiateForm();
       }
@@ -107,7 +111,7 @@ export class AddNewPlayerComponent  implements OnInit {
   }
 
   onSavePlayerData() {
-    if(this.player.invalid) {
+    if(this.playerForm.invalid) {
       return;
     }
     let newPlayer = this.newPlayerObject(this.playerForm.value);
@@ -116,5 +120,25 @@ export class AddNewPlayerComponent  implements OnInit {
         this.router.navigate(['/home/player-list']);
       }
     });
+  }
+
+  updatePlayerData() {
+    if(this.playerForm.invalid) {
+      return;
+    }
+    let player = this.playerForm.value;
+    let newPlayerData = {
+      "id": this.playerId,
+      "lastName": player.lastName,
+      "jerseyNumber": player.jerseyNumber,
+      "firstName": player.firstName,
+      "playerType": player.playerType,
+      "fullName": player.firstName + " " + player.lastName
+    }
+    this.firebaseService.updatePlayer(newPlayerData).subscribe({
+      next: () => {
+        this.router.navigate(['/home/player-profile'],{queryParams: {id: this.playerId}});
+      }
+    })
   }
 }

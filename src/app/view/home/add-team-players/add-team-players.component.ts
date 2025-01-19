@@ -42,12 +42,12 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
 
   addPlayerInTeam(player: any) {
     this.selectedTeamPlayerList.push(player);
-    this.updateplayerList(player.id,true,this.teamName)
+    this.updateplayerList(player.id,true,this.teamName);
   }
 
   removePlayerFromTeam(player: any,index: number) {
     this.selectedTeamPlayerList.splice(index,1)
-    this.updateplayerList(player.id,false,"")
+    this.updateplayerList(player.id,false,"");
   }
 
   onPlayerSelectionCompleted() {
@@ -62,6 +62,7 @@ export class AddTeamPlayersComponent implements OnInit, OnDestroy {
   clearSelectedPlayerList() {
     this.playerList = JSON.parse(JSON.stringify(this.data.teamPlayerList));
     this.selectedTeamPlayerList = [];
+    this.onPlayerSelectionCompleted();
   }
 
   ngOnDestroy(): void {

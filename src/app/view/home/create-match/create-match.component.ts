@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Data } from 'src/app/models/data';
@@ -18,25 +18,22 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
     public data: Data,
     public commonService: CommonService,
     public activatedRoute: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe((params: any) => {
-      if(params.isNewMatch) {
-        this.commonService.initDataValues();
-        this.router.navigate(['/home/create-new-match'],{queryParams: {}})
-      }
-      this.createNewMatch();
-    })
+    this.commonService.initDataValues();
+    this.createNewMatch();
   }
 
   createNewMatch() {
     this.match = this.fb.group({
       overs: [this.data.overs,Validators.required],
       isTeamOverSelected: [false],
-      teamName: [""]
-    })
+      teamName: [""],
+      shouldUpdatePlayerData: [this.data.shouldUpdatePlayerData]
+    });
   }
 
   get overs() {
@@ -45,6 +42,10 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
 
   get isTeamOverSelected(): any {
     return this.match.get('isTeamOverSelected')
+  }
+
+  get shouldUpdatePlayerData(): any {
+    return this.match.get('shouldUpdatePlayerData');
   }
 
   get teamName(): any {
@@ -62,7 +63,7 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.data.overs = this.overs?.value
-    this.data.tossWinningTeam = this.teamName?.value
+    this.data.tossWinningTeam = this.teamName?.value;
+    this.data.shouldUpdatePlayerData = this.shouldUpdatePlayerData.value;
   }
-
 }

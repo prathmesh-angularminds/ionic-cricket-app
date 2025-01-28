@@ -58,7 +58,7 @@ export class MatchSummaryComponent  implements OnInit {
   }
 
   returnPlayerHalfFirstName(firstName: string, lastName: string) {
-    return firstName?.charAt(0) + " " + lastName;
+    return firstName + " " + lastName?.charAt(0);
   }
 
   getMatchData(id: string) {

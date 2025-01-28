@@ -23,8 +23,13 @@ export class CreateMatchComponent  implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.commonService.initDataValues();
-    this.createNewMatch();
+    this.activatedRoute.queryParams.subscribe((params: any) => {
+      if(params.isNewMatch) {
+        this.commonService.initDataValues();
+        this.router.navigate(['/home/create-new-match'],{queryParams: {}})
+      }
+      this.createNewMatch();
+    })
   }
 
   createNewMatch() {

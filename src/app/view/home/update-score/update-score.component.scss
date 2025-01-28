@@ -142,7 +142,7 @@
         }
         .wicket {
             background-color: $wicket;
-            color: $white
+            color: $white;
         }
         .boundary {
             background-color: $text-color;
@@ -178,7 +178,14 @@
                 font-weight: 500;
             }
             .wicket {
-                color: $wicket;
+                color: $white;
+                font-weight: 600;
+                background: $wicket;
+            }
+            .noball {
+                color: $white;
+                font-weight: 600;
+                background: $text-color;
             }
         }
     }

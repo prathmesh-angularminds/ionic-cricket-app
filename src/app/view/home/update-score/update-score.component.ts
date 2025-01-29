@@ -16,9 +16,9 @@ export class UpdateScoreComponent implements OnInit {
   match: any = {}
   teamA: any = [];
   teamB: any = [];
-  currentSelectedBatsman: any = {};
-  currentSelectedBowler: any = {};
-  currentSelectedFielder: any = {};
+  currentSelectedBatsman: any = null;
+  currentSelectedBowler: any = null;
+  currentSelectedFielder: any = null;
   isOnStrikeBatsmanOut: boolean = false;
   showNewBatsmanModal: boolean = false;
   showNewBowlerModal: boolean = false;
@@ -26,7 +26,6 @@ export class UpdateScoreComponent implements OnInit {
   showCaughtOutModal: boolean = false;
   showRunOutModal: boolean = false;
   isInitSetup: boolean = true;
-  onStrikePlayerIndex: number = 0;
   batsmanId!: string;
   scoreKeyboard: [] = []
   areAllPlayersSelected: boolean = false;
@@ -40,7 +39,7 @@ export class UpdateScoreComponent implements OnInit {
     currentBowler: {}
   }
   changeBatsmanIndex!: number;
-  currentRunOutBatsman: any = {};
+  currentRunOutBatsman: any = null;
   currentRunOutBatsmanIndex: number = -1;
   currentBattingTeam: string = "";
   battingTeamLength: number = 0;
@@ -55,6 +54,23 @@ export class UpdateScoreComponent implements OnInit {
   isOnStrikeBatsmanRunOut: boolean = false;
   bowlerObject: any;
   keyboardCell: any;
+  showCatchDropModal: any = false;
+  dropDownList: any = [
+    {
+      label: "Catch drop",
+      url: "/home/update-score",
+      queryParam: {showCatchDropModal: true}
+    },
+  ]
+  matchCompleted = false;
+  image: string = "https://asset.cloudinary.com/dgoc3knjv/b2c7be912fa844d8a520724ba11d8d1e";
+  onStrikeBatsmanIndex: number = 0;
+  showCatchDropedAlerMessage: boolean = false;
+  showRunoutAlertMessage: boolean = false;
+  showCatchAlertMessage: boolean = false;
+  showBowlerAlertMessage: boolean = false;
+  showBatsmanAlertMessage: boolean = false;
+  showRetieredPlayerAlertMessage: boolean = false;
 
   constructor(
     public data: Data,
@@ -66,19 +82,20 @@ export class UpdateScoreComponent implements OnInit {
 
   ngOnInit() {
     this.scoreKeyboard = this.data.scoreKeyboard;
+    this.teamA = JSON.parse(JSON.stringify(this.commonService.updatePlayersObject(this.data.teamAPlayersList)));
+    this.teamB = JSON.parse(JSON.stringify(this.commonService.updatePlayersObject(this.data.teamBPlayersList)));
     this.currentBattingTeam = this.data.tossWinningTeam;
     this.battingTeamLength = this.getCurrentBattingTeam().length;
     this.initMatchObject();
     this.initCurrentBowlersBatsmanList();
-    this.teamA = this.commonService.updatePlayersObject(this.data.teamAPlayersList);
-    this.teamB = this.commonService.updatePlayersObject(this.data.teamBPlayersList);
     this.activatedRoute.queryParams.subscribe({
       next: (params: any) => {
         this.showNewBatsmanModal = params?.showNewBatsmanModal;
         this.showNewBowlerModal = params?.showNewBowlerModal;
         this.showPlayerReturnDeclareModal = params?.showPlayerReturnDeclareModal;
-        this.showCaughtOutModal = params.showCaughtOutModal;
-        this.showRunOutModal = params.showRunOutModal;
+        this.showCaughtOutModal = params?.showCaughtOutModal;
+        this.showRunOutModal = params?.showRunOutModal;
+        this.showCatchDropModal = params?.showCatchDropModal;
       }
     })
   }
@@ -160,8 +177,9 @@ export class UpdateScoreComponent implements OnInit {
 
   calculateBowlerEconomy(run: number) {
     let totalDeliveryBowled: number = this.getCurrentBowlerProperties('ball').length + 1;
-    run = this.getCurrentBowlerProperties('run') + run
-    return Math.round(run / totalDeliveryBowled);
+    run = this.getCurrentBowlerProperties('run') + run;
+    let overs = Number(((this.getCurrentBowlerProperties('over') + "").split('.')[0])) + (totalDeliveryBowled / 6) 
+    return Math.round(run / overs);
   }
 
   updateCurrentBowlerList(cssClass: string, label: string, run: number, ballType: string) {
@@ -184,6 +202,9 @@ export class UpdateScoreComponent implements OnInit {
     this.hasStartedInning = false;
     this.match.hasStartedSecondInning = true;
     this.match.inning[this.inning].nonBattedPlayerList = this.commonService.addNonBattedPlayerList(this.getCurrentBattingTeam());
+    if(this.inning === 0) {
+      this.match.inning[this.inning].totalRunScored++; 
+    }
     this.target = this.match.inning[this.inning].totalRunScored;
     this.requiredRun = this.target;
     this.inning++;
@@ -192,8 +213,12 @@ export class UpdateScoreComponent implements OnInit {
       this.match.afterMatchMessage = this.setAfterMatchMessage();
       this.data.match = this.match;
       this.match['matchCard'] = this.commonService.createMatchCard();
+      if(this.data.shouldUpdatePlayerData) {
+        this.updatePlayerData();
+      }
       this.firebaseService.addMatch(this.match);
-      this.router.navigate(['/home/match-summary']);
+      this.matchCompleted = true
+      return;
     }
     this.ballsLeft = this.data.overs * 6;
     this.requiredRunRate = ((this.target) / (this.data.overs)).toFixed(1);
@@ -233,12 +258,13 @@ export class UpdateScoreComponent implements OnInit {
         if(keyboardCell.run) {
           this.updateOnStrikeBatsmanScore(keyboardCell);
         }
-        var label: string = keyboardCell.run ? keyboardCell.run + " NB" : keyboardCell.run;
-        bowlerObject.ball = this.updateCurrentBowlerList(keyboardCell.class,keyboardCell.run,keyboardCell.run,keyboardCell.type)
+        var label: string = (keyboardCell.run - 1) ? (keyboardCell.run - 1) + " NB" : "NB";
+        bowlerObject.ball = this.updateCurrentBowlerList(keyboardCell.class,label,keyboardCell.run,keyboardCell.type)
         this.updateAfterBallChanges(bowlerObject,keyboardCell);
         break;
       // RO, 1 + RO, 2 + RO, 3 + RO, 4 + RO
       case "RUNOUT": 
+        this.showRunoutAlertMessage = false;
         var label: string = keyboardCell.run + " RO";
         this.updateOnStrikeBatsmanScore(keyboardCell);
         this.router.navigate(['/home/update-score'],{queryParams: {showRunOutModal: true}});
@@ -248,13 +274,16 @@ export class UpdateScoreComponent implements OnInit {
         this.bowlerObject = bowlerObject;
         this.keyboardCell = keyboardCell;
         break;
-      case "WICKET": 
-        this.updateBatterAfterWicket(keyboardCell.label);
+      case "WICKET":
+        this.showCatchAlertMessage = false;
+        this.updateBatterAfterWicket(keyboardCell.label,bowlerObject.legalDeliveryCount);
         bowlerObject.ball = this.updateCurrentBowlerList(keyboardCell.class,"W",keyboardCell.run,keyboardCell.type)
         this.match.inning[this.inning].totalWicketsFallen++;
         this.updateAfterBallChanges(bowlerObject,keyboardCell);
+        this.changeBatsmanStrike(keyboardCell.shouldChangeStrike);
         break;
       case "RETIRED_HURT":
+        this.showRetieredPlayerAlertMessage = false;
         if(this.areAllPlayersSelected) {
           this.router.navigate(['/home/update-score'],{queryParams: {showPlayerReturnDeclareModal: true}})
           return;
@@ -276,22 +305,45 @@ export class UpdateScoreComponent implements OnInit {
       this.updateBowlerData();
     }
     if(this.isInningCompleted()) {
-      this.showInningCompletedScreen = true;
-      let teamName = this.data.tossWinningTeam.includes('SANGHARSH A') ? "SANGHARSH B" : "SANGHARSH B";
+      if(this.currentBowlerTable.currentBowler.ball.length !== 0) {
+        this.updateBowlerData();  // Update bowler after match is finished
+      }
+      this.updateBatsmanAfterInningCompleted();
+      let teamName = this.data.tossWinningTeam.includes('SANGHARSH A') ? "SANGHARSH B" : "SANGHARSH A";
       this.onInningCompleted(teamName);
+      this.showInningCompletedScreen = true;
       this.currentBattingTeam = teamName;
       this.battingTeamLength = this.getCurrentBattingTeam().length;
     }
   }
 
+  updateBatsmanAfterInningCompleted() {
+    this.currentBattingPairTable.battingPairList.forEach((batsman: any) => {
+      batsman.isPlayerOut = false;
+      batsman.wicketDetails = null;
+      this.batsmanId = batsman.id;
+      this.updateBatsmanData(batsman);
+      this.updateInningBatsmanList(batsman);
+    })
+  }
+
   isInningCompleted() {
     if((this.battingTeamLength - 1) === this.match.inning[this.inning].totalWicketsFallen) {
       this.match.inning[this.inning].isAllOut = true;
+      return true;
     }
-    return (this.match.inning[this.inning].over === this.data.overs) || (this.match.inning[this.inning].isAllOut || (this.inning === 1 && this.match.inning[this.inning].totalRunScored >= this.match.inning[this.inning-1].totalRunScored));
+    // over completed
+    if(this.match.inning[this.inning].over === this.data.overs) {
+      return true;
+    }
+    // Score not able to complete
+    if(this.inning === 1 && this.match.inning[this.inning].totalRunScored >= this.match.inning[this.inning-1].totalRunScored) {
+      return true;
+    }
+    return false;
   }
 
-  updateBatterAfterWicket(wicketType: string) {
+  updateBatterAfterWicket(wicketType: string,legalDeliveryCount: number) {
     let batsman: any = {
       wicketDetails: {
         bowlerFirstName: this.currentBowlerTable.currentBowler.firstName,
@@ -302,26 +354,26 @@ export class UpdateScoreComponent implements OnInit {
       },
       isPlayerOut: true
     }
+    batsman = {...batsman,...this.currentBattingPairTable.battingPairList[this.onStrikeBatsmanIndex]};
+    batsman.isPlayerOut = true;
+    batsman.ball += 1;
     switch(wicketType) {
       case "HW": 
-        batsman = {...batsman,...this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex]};
         this.updateBatsmanData(batsman);
         this.updateInningBatsmanList(batsman);
-        this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex] = this.commonService.initializeEmptyBatsmanObject(true);
+        this.currentBattingPairTable.battingPairList[this.onStrikeBatsmanIndex] = this.commonService.initializeEmptyBatsmanObject(true);
         break;
-      case "CW":
-        batsman = {...batsman,...this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex]};
+      case "CAUGHT":
         this.batsmanId = batsman.id;
         this.updateBatsmanData(batsman);
         this.updateInningBatsmanList(batsman);
         this.router.navigate(['/home/update-score'],{queryParams: {showCaughtOutModal: true}})
-        this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex] = this.commonService.initializeEmptyBatsmanObject(true);
+        this.currentBattingPairTable.battingPairList[this.onStrikeBatsmanIndex] = this.commonService.initializeEmptyBatsmanObject(true);
         break;
-      case "W":
-        batsman = {...batsman,...this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex]};
+      case "BOLD":
         this.updateBatsmanData(batsman);
         this.updateInningBatsmanList(batsman);
-        this.currentBattingPairTable.battingPairList[this.onStrikePlayerIndex] = this.commonService.initializeEmptyBatsmanObject(true);
+        this.currentBattingPairTable.battingPairList[this.onStrikeBatsmanIndex] = this.commonService.initializeEmptyBatsmanObject(true);
         break;
     }
     this.areAllPlayersSelected = false;
@@ -331,12 +383,13 @@ export class UpdateScoreComponent implements OnInit {
     let team = this.getCurrentBattingTeam();
     team.forEach((batter: any) => {
       if(batter.id === updatingBatter.id) {
-        batter.battingStats.run = updatingBatter.run;
-        batter.battingStats.ball = updatingBatter.ball;
-        batter.battingStats.six = updatingBatter.six;
-        batter.battingStats.four = updatingBatter.four;
-        batter.battingStats.isPlayerOut = isPlayerOut;
-        batter.battingStats.isOnCrease = false;
+        batter.battingDetails.run = updatingBatter.run;
+        batter.battingDetails.ball = updatingBatter.ball;
+        batter.battingDetails.six = updatingBatter.six;
+        batter.battingDetails.four = updatingBatter.four;
+        batter.battingDetails.isPlayerOut = isPlayerOut;
+        batter.battingDetails.isOnCrease = false;
+        batter.battingDetails.strikeRate = Number(((updatingBatter.run / updatingBatter.ball) * 100).toFixed(0));
       }
     })
   }
@@ -345,9 +398,10 @@ export class UpdateScoreComponent implements OnInit {
     let team = this.getCurrentBowlingTeam();
     team.forEach((bowler: any) => {
       if(bowler.id === this.currentBowlerTable.currentBowler.id) {
-        bowler.bowlingStats.over += 1;
-        bowler.bowlingStats.wicket = this.currentBowlerTable.currentBowler.wicket;
-        bowler.bowlingStats.run = this.currentBowlerTable.currentBowler.run;
+        bowler.bowlingDetails.over += 1;
+        bowler.bowlingDetails.wicket = this.currentBowlerTable.currentBowler.wicket;
+        bowler.bowlingDetails.run = this.currentBowlerTable.currentBowler.run;
+        bowler.bowlingDetails.economy = Math.round(this.currentBowlerTable.currentBowler.run / bowler.bowlingDetails.over);
         bowler.isCurrentBowler = false;
       }
     })
@@ -388,9 +442,9 @@ export class UpdateScoreComponent implements OnInit {
       this.currentBattingPairTable.battingPairList[1].isOnStrike = !this.currentBattingPairTable.battingPairList[1].isOnStrike;
     }
     if(this.currentBattingPairTable.battingPairList[0].isOnStrike) {
-      this.onStrikePlayerIndex = 0;
+      this.onStrikeBatsmanIndex = 0;
     } else {
-      this.onStrikePlayerIndex = 1;
+      this.onStrikeBatsmanIndex = 1;
     }
   }
 
@@ -418,16 +472,27 @@ export class UpdateScoreComponent implements OnInit {
   }
 
   onBatsmanMarkedRetiered() {
+    if(this.retieredBatsmanIndex === -1) {
+      this.showRetieredPlayerAlertMessage = true;
+      return;
+    }
+    this.showRetieredPlayerAlertMessage = false;
     let retieredBatsman = this.currentBattingPairTable.battingPairList[this.retieredBatsmanIndex];
     this.updateBatsmanData(retieredBatsman, false);
     this.updateInningBatsmanList(retieredBatsman);
     this.currentBattingPairTable.battingPairList[this.retieredBatsmanIndex] = this.commonService.initializeEmptyBatsmanObject(this.isOnStrikeBatsmanOut);
     this.isOnStrikeBatsmanOut = false;
     this.retieredBatsmanIndex = -1;
+    this.router.navigate(['/home/update-score'],{queryParams: {showPlayerReturnDeclareModal: null}});
     this.unableScoreKeyboard();
   }
 
   onBatsmanSelected() {
+    if(!this.currentSelectedBatsman) {
+      this.showBatsmanAlertMessage = true;
+      return;
+    }
+    this.showBatsmanAlertMessage = false;
     let batsman = this.commonService.returnNewBatsmanObjectOnSelected(this.currentSelectedBatsman);
     this.currentBattingPairTable.battingPairList[this.changeBatsmanIndex] = {
       ...this.currentBattingPairTable.battingPairList[this.changeBatsmanIndex],
@@ -437,13 +502,14 @@ export class UpdateScoreComponent implements OnInit {
     team.forEach((batter: any) => {
       if(batter.id === batsman.id) {
         batter.isSelectedForBatting = false;
-        batter.battingStats.isOnCrease = true;
+        batter.battingDetails.isOnCrease = true;
         batter.hasBatted = true;
       }
     })
     this.updateInningBatsmanList(batsman);
-    this.currentSelectedBatsman = {};
+    this.currentSelectedBatsman = null;
     this.unableScoreKeyboard();
+    this.router.navigate(['/home/update-score'],{queryParams: {showNewBatsmanModal: null}})
   }
 
   // Select new bowler functionality
@@ -460,11 +526,17 @@ export class UpdateScoreComponent implements OnInit {
   }
 
   onBowlerSelected() {
+    if(!this.currentSelectedBowler) {
+      this.showBowlerAlertMessage = true;
+      return;
+    }
+    this.showBowlerAlertMessage = false;
     this.currentBowlerTable.currentBowler = this.commonService.returnNewBowlerObjectOnSelected(this.currentSelectedBowler);
     this.onNewBowlerSelected(this.getCurrentBowlingTeam(),"");
-    this.currentSelectedBowler = {};
+    this.currentSelectedBowler = null;
     this.unableScoreKeyboard();
     this.runScoredInLastOver = 0;
+    this.router.navigate(['/home/update-score'],{queryParams: {showNewBowlerModal: null}})
   }
 
   // Select new fielder for catch out and run out functionality
@@ -481,6 +553,11 @@ export class UpdateScoreComponent implements OnInit {
   }
 
   onFielderSelected() {
+    if(!this.currentSelectedFielder) {
+      this.showCatchAlertMessage = true;
+      return;
+    }
+    this.showCatchAlertMessage = false;
     this.match.inning[this.inning].batsmanList.forEach((batsman: any) => {
       if(batsman.id === this.batsmanId) {
         batsman.wicketDetails.fielderFirstName = this.currentSelectedFielder.firstName;
@@ -489,13 +566,31 @@ export class UpdateScoreComponent implements OnInit {
     })
     this.getCurrentBowlingTeam().forEach((player: any) => {
       if(player.id === this.currentSelectedFielder.id) {
-        player.catch += 1;
-        player.catchTaken += 1;
+        player.fieldingDetails.catch += 1;
+        player.fieldingDetails.catchTaken += 1;
       }        
       player.isSelectedForFielding = false;
     });
-    this.currentSelectedFielder = {};
+    this.currentSelectedFielder = null;
     this.batsmanId = "";
+    this.router.navigate(['/home/update-score'],{queryParams: {showCaughtOutModal: null}});
+  }
+
+  onCatchDropedFielderSelected() {
+    if(!this.currentSelectedFielder) {
+      this.showCatchDropedAlerMessage = true;
+      return;
+    }
+
+    this.showCatchDropedAlerMessage = false;
+    this.getCurrentBowlingTeam().forEach((player: any) => {
+      if(player.id === this.currentSelectedFielder.id) {
+        player.fieldingDetails.catch += 1;
+      }        
+      player.isSelectedForFielding = false;
+    });
+    this.currentSelectedFielder = null;
+    this.router.navigate(['/home/update-score'],{queryParams: {showCaughtOutModal: null}});
   }
 
   onRunOutBatsmanSelected(id: string) {
@@ -512,6 +607,11 @@ export class UpdateScoreComponent implements OnInit {
   }
 
   onRunOutDataSelected() {
+    if(!this.currentRunOutBatsman || !this.currentSelectedFielder) {
+      this.showRunoutAlertMessage = true
+      return;
+    }
+    this.showRunoutAlertMessage = false;
     let batsman: any = {
       wicketDetails: {
         bowlerFirstName: null,
@@ -523,6 +623,7 @@ export class UpdateScoreComponent implements OnInit {
     }
     this.currentBattingPairTable.battingPairList[this.currentRunOutBatsmanIndex].isSelectedForRunOut = false;
     batsman = {...batsman,...this.currentBattingPairTable.battingPairList[this.currentRunOutBatsmanIndex]};
+    batsman.isPlayerOut = true;
     this.batsmanId = batsman.id;
     this.updateBatsmanData(batsman);
     this.updateInningBatsmanList(batsman);
@@ -532,8 +633,10 @@ export class UpdateScoreComponent implements OnInit {
       }        
       player.isSelectedForFielding = false;
     });
-    this.currentSelectedFielder = {};
     this.batsmanId = "";
+    if(this.bowlerObject.legalDeliveryCount === 6) {  // IF runout happens the condition should reverse
+      this.isOnStrikeBatsmanOut = !this.isOnStrikeBatsmanOut;
+    }
     if(this.currentRunOutBatsmanIndex === 1) {
       this.currentBattingPairTable.battingPairList[this.currentRunOutBatsmanIndex] = this.commonService.initializeEmptyBatsmanObject(this.isOnStrikeBatsmanRunOut);
       this.currentBattingPairTable.battingPairList[0].isOnStrike = !this.isOnStrikeBatsmanRunOut;
@@ -542,6 +645,12 @@ export class UpdateScoreComponent implements OnInit {
       this.currentBattingPairTable.battingPairList[1].isOnStrike = !this.isOnStrikeBatsmanRunOut;
     };
     this.updateAfterBallChanges(this.bowlerObject,this.keyboardCell);
+    this.bowlerObject = {};
+    this.keyboardCell = {};
+    this.isOnStrikeBatsmanRunOut = false
+    this.currentRunOutBatsman = null;
+    this.currentSelectedFielder = null;
+    this.router.navigate(['/home/update-score'],{queryParams: {showRunOutModal: null}});
   }
 
   unableScoreKeyboard() {
@@ -595,11 +704,28 @@ export class UpdateScoreComponent implements OnInit {
 
   setAfterMatchMessage() {
     if(this.match.inning[1].totalRunScored >= this.match.inning[0].totalRunScored) {
-      return this.match.battingTeam + " won by " + this.ballsLeft + " in hand";
-    } else if(this.match.inning[1].isAllOut) {
-      return this.data.tossWinningTeam + " wom by " + (this.match.inning[0].totalRunScored - this.match.inning[1].totalRunScored)
+      return this.match.inning[1].battingTeam + " won by " + this.ballsLeft + " balls in hand"
+    } else if(this.match.inning[0].totalRunScored > this.match.inning[1].totalRunScored) {
+      return this.match.inning[0].battingTeam + " won by " + (this.match.inning[0].totalRunScored - this.match.inning[1].totalRunScored) + " runs";
     }
     return "";
+  }
+
+  updatePlayerData() {
+    let allPlayerList = [...this.teamA,...this.teamB];
+    allPlayerList.forEach((player: any) => {
+      this.commonService.getPlayerUpdateObject(player);
+    });
+  }
+
+  initializeAlertMessageFlag(flag: string) {
+    if(flag === 'NEW_BATSMAN') {
+      this.showBatsmanAlertMessage = false;
+    } else if(flag === 'NEW_BOWLER') {
+      this.showBowlerAlertMessage = false;
+    } else {
+      this.showCatchDropedAlerMessage = false;
+    }
   }
 }
 

@@ -12,7 +12,7 @@ export class Data {
     public teamPlayerList: any = [];
     public teamAPlayersList: any = [];
     public teamBPlayersList: any = [];
-    public overs: any = 0;
+    public overs: any = 4;
     public tossWinningTeam: string = "";
     public scoreKeyboard: any = [
         [
@@ -47,7 +47,7 @@ export class Data {
                 label: "2 + RO",
                 run: 2,
                 type: "RUNOUT",
-                class: "",
+                class: "wicket",
                 isLegalDelivery: true,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -72,7 +72,7 @@ export class Data {
                 shouldChangeStrike: false
             },
             {
-                label: "W",
+                label: "BOLD",
                 run: 0,
                 type: "WICKET",
                 class: "wicket",
@@ -84,7 +84,7 @@ export class Data {
                 label: "3 + RO",
                 run: 3,
                 type: "RUNOUT",
-                class: "",
+                class: "wicket",
                 isLegalDelivery: true,
                 isWicket: false,
                 shouldChangeStrike: true
@@ -100,7 +100,7 @@ export class Data {
                 shouldChangeStrike: true
             },
             {
-                label: "WD",
+                label: "WIDE",
                 run: 1,
                 type: "WIDE",
                 class: "",
@@ -112,7 +112,7 @@ export class Data {
                 label: "RO",
                 run: 0,
                 type: "RUNOUT",
-                class: "",
+                class: "wicket",
                 isLegalDelivery: true,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -121,7 +121,7 @@ export class Data {
                 label: "4 + RO",
                 run: 4,
                 type: "RUNOUT",
-                class: "",
+                class: "wicket",
                 isLegalDelivery: true,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -137,7 +137,7 @@ export class Data {
                 shouldChangeStrike: false
             },
             {
-                label: "CW",
+                label: "CAUGHT",
                 run: 0,
                 type: "WICKET",
                 class: "wicket",
@@ -149,7 +149,7 @@ export class Data {
                 label: "1 + RO",
                 run: 1,
                 type: "RUNOUT",
-                class: "",
+                class: "wicket",
                 isLegalDelivery: true,
                 isWicket: false,
                 shouldChangeStrike: true
@@ -168,7 +168,7 @@ export class Data {
                 label: "NB",
                 run: 1,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -177,7 +177,7 @@ export class Data {
                 label: "1 + NB",
                 run: 2,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: true
@@ -186,7 +186,7 @@ export class Data {
                 label: "2 + NB",
                 run: 3,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -195,7 +195,7 @@ export class Data {
                 label: "3 + NB",
                 run: 4,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: true
@@ -205,7 +205,7 @@ export class Data {
                 label: "4 + NB",
                 run: 5,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -214,7 +214,7 @@ export class Data {
                 label: "6 + NB",
                 run: 7,
                 type: "NOBALL",
-                class: "",
+                class: "noball",
                 isLegalDelivery: false,
                 isWicket: false,
                 shouldChangeStrike: false
@@ -231,4 +231,5 @@ export class Data {
         ],
     ]
     public afterMatchMessage: string = "";
+    public shouldUpdatePlayerData: boolean = false;
 }

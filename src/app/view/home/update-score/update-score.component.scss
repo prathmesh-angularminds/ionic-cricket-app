@@ -227,8 +227,17 @@
                 }
             }
             .modal-body {
+                height: 400px;
                 width: 100%;
                 overflow-y: scroll;
+                .alert-message {
+                    color: #58151c;
+                    background: #f8d7da;
+                    border: 1px solid #f1aeb5;
+                    padding: 4%;
+                    font-size: 12px;
+                    margin-bottom: 5px;
+                } 
                 .title {
                     font-size: 16px;
                     font-weight: 700;
@@ -356,6 +365,9 @@
                         z-index: 2;
                     }
                 }
+            }
+            .modal-body::-webkit-scrollbar {
+                display: none;
             }
             .modal-footer {
                 width: 100%;

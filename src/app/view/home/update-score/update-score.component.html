@@ -1,13 +1,9 @@
-<div class="update-score">
+<div class="update-score" *ngIf="!matchCompleted">
   <div class="update-score-header">
     <app-back-button [url]="url"></app-back-button>
-    <app-dropdown></app-dropdown>
-    <div>
-      <button class="dropdown"></button>
-      <ng-container></ng-container>
-    </div>
+    <app-dropdown [dropdownList]="dropDownList"></app-dropdown>
     <div class="update-score-title">
-      <div class="team-name">{{match.inning[inning].battingTeam}}</div>
+      <div class="team-name">{{match.inning[inning]?.battingTeam}}</div>
       <div class="inning-title">
         <ng-container *ngIf="inning === 0">{{inning + 1}}st&nbsp;</ng-container> 
         <ng-container *ngIf="inning === 1">{{inning + 1}}nd&nbsp;</ng-container> 
@@ -114,27 +110,30 @@
     <div class="new-batsman-modal">
       <div class="modal-header">
         <div class="title">Select New Player</div>
-        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}">
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}" (click)="initializeAlertMessageFlag('NEW_BATSMAN')">
           <img src="../../../../assets/icon/cross_button.svg" />
         </div>
       </div>
       <div class="modal-body">
+        <div class="alert-message" *ngIf="showBatsmanAlertMessage">
+          Please select new batsman
+        </div>
         <div class="batsman-list">
           <div class="batsman-modal-card" *ngFor="let batsman of this.getCurrentBattingTeam()">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="batsman?.circleImage ? batsman?.circleImage :  '../../../../assets/icon/player-modal-profile.png'"/>
               <div class="batsman-details">
-                <div class="batsman-name">{{batsman.fullName}} <span *ngIf="batsman.battingStats.isPlayerOut">&nbsp;(Out)</span></div>
-                <div class="batsman-score">({{batsman.battingStats.run}}) {{batsman.battingStats.ball}}</div>
+                <div class="batsman-name">{{batsman.fullName}} <span *ngIf="batsman.battingDetails.isPlayerOut">&nbsp;(Out)</span></div>
+                <div class="batsman-score">({{batsman.battingDetails.run}}) {{batsman.battingDetails.ball}}</div>
               </div>
             </div>
-            <input *ngIf="!batsman.battingStats.isPlayerOut && !batsman.battingStats.isOnCrease" type="checkbox" [(ngModel)]="batsman.isSelectedForBatting" (click)="onNewBatsmanSelected(this.getCurrentBattingTeam(),batsman.id)"/>
+            <input *ngIf="!batsman.battingDetails.isPlayerOut && !batsman.battingDetails.isOnCrease" type="checkbox" [(ngModel)]="batsman.isSelectedForBatting" (click)="onNewBatsmanSelected(this.getCurrentBattingTeam(),batsman.id)"/>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}">Cancel</button>
-        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}" (click)="onBatsmanSelected();">Save</button>
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBatsmanModal: null}" (click)="initializeAlertMessageFlag('NEW_BATSMAN')">Cancel</button>
+        <button class="save-button" (click)="onBatsmanSelected();">Save</button>
       </div>
     </div>
   </div>
@@ -144,27 +143,30 @@
     <div class="new-batsman-modal">
       <div class="modal-header">
         <div class="title">Select New Bowler</div>
-        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}">
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}" (click)="initializeAlertMessageFlag('NEW_BOWLER')">
           <img src="../../../../assets/icon/cross_button.svg" />
         </div>
       </div>
       <div class="modal-body">
+        <div class="alert-message" *ngIf="showBowlerAlertMessage">
+          Please select new bowler
+        </div>
         <div class="batsman-list">
           <div class="batsman-modal-card" *ngFor="let bowler of this.getCurrentBowlingTeam()">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="bowler?.circleImage ? bowler?.circleImage :  '../../../../assets/icon/player-modal-profile.png'" />
               <div class="batsman-details">
                 <div class="batsman-name">{{bowler.fullName}}</div>
-                <div class="batsman-score">{{bowler.bowlingStats.run}} ({{bowler.bowlingStats.over}} Ov) {{bowler.bowlingStats.wicket}} WKs</div>
+                <div class="batsman-score">{{bowler.bowlingDetails.run}} ({{bowler.bowlingDetails.over}} Ov) {{bowler.bowlingDetails.wicket}} WKs</div>
               </div>
             </div>
-            <input *ngIf="!bowler.bowlingStats.isPlayerOut" type="checkbox" [(ngModel)]="bowler.isSelectedForBowing" (click)="onNewBowlerSelected(this.getCurrentBowlingTeam(),bowler.id)"/>
+            <input *ngIf="!bowler.bowlingDetails.isPlayerOut" type="checkbox" [(ngModel)]="bowler.isSelectedForBowing" (click)="onNewBowlerSelected(this.getCurrentBowlingTeam(),bowler.id)"/>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}">Cancel</button>
-        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}" (click)="onBowlerSelected()">Save</button>
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showNewBowlerModal: null}" (click)="initializeAlertMessageFlag('NEW_BOWLER')">Cancel</button>
+        <button class="save-button" (click)="onBowlerSelected()">Save</button>
       </div>
     </div>
   </div>
@@ -179,10 +181,13 @@
         </div>
       </div>
       <div class="modal-body">
+        <div class="alert-message" *ngIf="showRetieredPlayerAlertMessage">
+          Please select retired player
+        </div>
         <div class="batsman-list">
           <div class="batsman-modal-card" *ngFor="let batsman of this.currentBattingPairTable.battingPairList; let i = index">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="batsman?.circleImage ? batsman?.circleImage : '../../../../assets/icon/player-modal-profile.png'"/>
               <div class="batsman-details">
                 <div class="batsman-name">{{batsman.fullName}}</div>
                 <div class="batsman-score">({{batsman.run}}) {{batsman.ball}}</div>
@@ -194,7 +199,7 @@
       </div>
       <div class="modal-footer">
         <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showPlayerReturnDeclareModal: null}">Cancel</button>
-        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showPlayerReturnDeclareModal: null}" (click)="onBatsmanMarkedRetiered()">Save</button>
+        <button class="save-button" (click)="onBatsmanMarkedRetiered()">Save</button>
       </div>
     </div>
   </div>
@@ -209,10 +214,13 @@
         </div>
       </div>
       <div class="modal-body">
+        <div class="alert-message" *ngIf="showCatchAlertMessage">
+          Please select catch taking player
+        </div>
         <div class="batsman-list">
           <div class="batsman-modal-card" *ngFor="let fielder of this.getCurrentBowlingTeam()">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="fielder?.circleImage ? fielder?.circleImage : '../../../../assets/icon/player-modal-profile.png'"/>
               <div class="batsman-details">
                 <div class="batsman-name">{{fielder.fullName}}</div>
               </div>
@@ -223,7 +231,7 @@
       </div>
       <div class="modal-footer">
         <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}">Cancel</button>
-        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}" (click)="onFielderSelected()">Save</button>
+        <button class="save-button" (click)="onFielderSelected()">Save</button>
       </div>
     </div>
   </div>
@@ -238,10 +246,13 @@
         </div>
       </div>
       <div class="modal-body">
+        <div class="alert-message" *ngIf="showRunoutAlertMessage">
+          Please select runout batsman and fielder
+        </div>
         <div class="batsman-list">
           <div class="batsman-modal-card" *ngFor="let batsman of this.currentBattingPairTable.battingPairList">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="batsman?.circleImage ? batsman?.circleImage : '../../../../assets/icon/player-modal-profile.png'"/>
               <div class="batsman-details">
                 <div class="batsman-name">{{batsman.fullName}} &nbsp;&nbsp;<div class="on-strike" *ngIf="batsman.isOnStrike"></div></div>
                 <div class="batsman-score">({{batsman.run}}) {{batsman.ball}}</div>
@@ -254,7 +265,7 @@
         <div class="batsman-list runout-fielders-list">
           <div class="batsman-modal-card" *ngFor="let fielder of this.getCurrentBowlingTeam()">
             <div class="batsman-profile-name">
-              <img src="../../../../assets/icon/player-modal-profile.png"/>
+              <img [src]="fielder?.circleImage ? fielder?.circleImage : '../../../../assets/icon/player-modal-profile.png'"/>
               <div class="batsman-details">
                 <div class="batsman-name">{{fielder.fullName}}</div>
               </div>
@@ -262,11 +273,11 @@
             <input type="checkbox" [(ngModel)]="fielder.isSelectedForFielding" (click)="onNewFielderSelected(this.getCurrentBowlingTeam(),fielder.id)"/>
           </div>
         </div>
-        <div class="runout-checkbox"><label for="checkIsOnStrikeBatsman">Is on-strike batsman out: </label><input id="checkIsOnStrikeBatsman" type="checkbox" [(ngModel)]="isOnStrikeBatsmanRunOut"/></div>
+        <div class="runout-checkbox"><label for="checkIsOnStrikeBatsman">Was batsman out on strike: </label><input id="checkIsOnStrikeBatsman" type="checkbox" [(ngModel)]="isOnStrikeBatsmanRunOut"/></div>
       </div>
       <div class="modal-footer">
         <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showRunOutModal: null}">Cancel</button>
-        <button class="save-button" [routerLink]="'/home/update-score'" [queryParams]="{showRunOutModal: null}" (click)="onRunOutDataSelected()">Save</button>
+        <button class="save-button" (click)="onRunOutDataSelected()">Save</button>
       </div>
     </div>
   </div>
@@ -276,5 +287,37 @@
     <div class="score-needed">{{target}}</div>
     <div class="overs-details">runs of <span>{{this.data.overs}}</span> overs</div>
     <button class="start-second-button" (click)="this.showInningCompletedScreen = false">Start 2nd Inning</button>
+  </div>
+
+  <!-- Catch drop modal -->
+  <div class="new-batsman-modal-page" *ngIf="showCatchDropModal">
+    <div class="new-batsman-modal">
+      <div class="modal-header">
+        <div class="title">Catch droped by</div>
+        <div class="close-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}" (click)="initializeAlertMessageFlag('CATCH_DROPED')">
+          <img src="../../../../assets/icon/cross_button.svg" />
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="alert-message" *ngIf="showCatchDropedAlerMessage">
+          Please select a player who droped catch
+        </div>
+        <div class="batsman-list">
+          <div class="batsman-modal-card" *ngFor="let fielder of this.getCurrentBowlingTeam()">
+            <div class="batsman-profile-name">
+              <img [src]="fielder?.circleImage ? fielder?.circleImage : '../../../../assets/icon/player-modal-profile.png'"/>
+              <div class="batsman-details">
+                <div class="batsman-name">{{fielder.fullName}}</div>
+              </div>
+            </div>
+            <input type="checkbox" [(ngModel)]="fielder.isSelectedForFielding" (click)="onNewFielderSelected(this.getCurrentBowlingTeam(),fielder.id)"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button" [routerLink]="'/home/update-score'" [queryParams]="{showCaughtOutModal: null}" (click)="initializeAlertMessageFlag('CATCH_DROPED')">Cancel</button>
+        <button class="save-button" (click)="onCatchDropedFielderSelected()">Save</button>
+      </div>
+    </div>
   </div>
 </div>

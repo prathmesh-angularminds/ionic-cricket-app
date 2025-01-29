@@ -116,11 +116,11 @@ export class PlayerProfileComponent  implements OnInit {
   }
 
   calculateBattingAverage() {
-    this.player.bowlingDetails.average = this.player.bowlingDetails.wicket ? (this.player.bowlingDetails.run / this.player.bowlingDetails.wicket) : 0;
+    this.player.battingDetails.average = this.player.battingDetails.dismissedCount ? (this.player.battingDetails.run / this.player.battingDetails.dismissedCount) : this.player.battingDetails.run;
   }
-
+  
   calculateBowlingAverage() {
-    this.player.battingDetails.average = this.player.battingDetails.dismissedCount ? (this.player.battingDetails.run / this.player.battingDetails.wicket) : this.player.battingDetails.run;
+    this.player.bowlingDetails.average = this.player.bowlingDetails.wicket ? (this.player.bowlingDetails.run / this.player.bowlingDetails.wicket) : 0;
   }
 
   calculateFieldingAverage() {

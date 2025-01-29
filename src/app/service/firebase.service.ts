@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, getDoc, collectionData, updateDoc, arrayUnion, where, CollectionReference, query, onSnapshot, deleteDoc, arrayRemove, getDocs, doc, increment } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { Firestore, addDoc, collection, getDoc, collectionData, updateDoc, arrayUnion, where, CollectionReference, query, deleteDoc, arrayRemove, getDocs, doc, increment } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Player } from '../models/player.interface';
 import { Data } from '../models/data';
@@ -54,28 +54,12 @@ export class FirebaseService {
 
   updatePlayer(player: any) {
     let docRef = doc(this.fireStore,'players',player.id);
-    updateDoc(docRef,{
-      match: increment(1),
-      bowlingDetails: {
-        over: increment(player.bowlingDetails.over),
-        run: increment(player.bowlingDetails.run),
-        wicket: increment(player.bowlingDetails.wicket),
-        economy: player.bowlingDetails.economy
-      },
-      fieldingDetails: {
-        catch: increment(player.fieldingDetails.totalCatch),
-        catchTaken: increment(player.fieldingDetails.catchTaken),
-        runOutAttempt: increment(player.fieldingDetails.runOutAttempt),
-      },
-      battingDetails: {
-        run: increment(player.battingDetails.run),
-        ball: increment(player.battingDetails.ball),
-        six: increment(player.battingDetails.six),
-        four: increment(player.battingDetails.four),
-        strikeRate: player.battingDetails.strikeRate,
-        ...(player.battingDetails?.dismissedCount && {dismissedCount: increment(1)})
-      }
-    })
+    return from(updateDoc(docRef,player));
+  }
+
+  deletePlayer(playerId: string) {
+    let docRef = this.getDocument(playerId,'players');
+    return from(deleteDoc(docRef))
   }
 
   // Match 

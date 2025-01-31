@@ -26,8 +26,13 @@ export class MatchListComponent  implements OnInit {
   getMatchCardList() {
     this.firebaseService.getMatchCardList().subscribe({
       next: (matchCardList: any) => {
-        this.matchCardList = matchCardList
+        this.matchCardList = matchCardList.sort((a: any, b: any) => this.parseDate(a.date).getTime() - this.parseDate(b.date).getTime());
       }
     })
   }
+
+  parseDate(dateStr: string): Date {
+    return new Date(dateStr);
+  };  
+  
 }

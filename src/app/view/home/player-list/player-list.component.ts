@@ -51,7 +51,7 @@ export class PlayerListComponent  implements OnInit {
   getAllPlayers() {
     this.firebaseService.getPlayerList().subscribe({
       next: (playerList) => {
-        this.data.playerList = playerList;
+        this.data.playerList = playerList.sort((player1: any,player2: any) => player1.fullName.localeCompare(player2.fullName));
         this.playerList = this.data.playerList;
         this.data.isMatchPlayed = false;
         this.storage.set('playerList',this.data.playerList);

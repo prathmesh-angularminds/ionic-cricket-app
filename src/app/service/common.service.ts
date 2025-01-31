@@ -20,22 +20,19 @@ export class CommonService {
     this.storage.get('playerList').subscribe({
       next: (playerList: Player[]) => {
         this.data.playerList = playerList;
-        this.data.teamPlayerList = JSON.parse(JSON.stringify(this.data.playerList));
+        this.data.teamPlayerList = JSON.parse(JSON.stringify(this.data.playerList)).map((player: any) => {
+          delete player.battingDetails;
+          delete player.bowlingDetails;
+          delete player.fieldingDetails;
+          delete player.battingHand
+          return player
+        });
         this.data.teamPlayerList.forEach((player: any) => {
           player.isSelected = false;
           player.teamName = "";
         })
       }
     })
-  }
-
-  setPlayerListData(playerList: Player[]) {
-    playerList = JSON.parse(JSON.stringify(playerList));
-    playerList.forEach((player: Player) => {
-      player.isSelected = false;
-      player.teamName = ""
-    })
-    return playerList;
   }
 
   initializeEmptyBatsmanObject(isOnStrike: boolean) {

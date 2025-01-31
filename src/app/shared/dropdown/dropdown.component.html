@@ -1,6 +1,11 @@
 <div class="dropdown">
   <button (click)="dropDownOpened()">
-    <img src="../../../assets/icon/more-vertical.svg"/>
+    <ng-container *ngIf="!isDropdownOpen; else dropdownClosed">
+      <img src="../../../assets/icon/more-vertical.svg"/>
+    </ng-container>
+    <ng-template #dropdownClosed>
+      <img src="../../../assets/icon/cross_button.svg" />
+    </ng-template>
   </button>
   <ng-container *ngIf="isDropdownOpen">
     <div class="dropdownContainer">
